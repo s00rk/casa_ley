@@ -35,7 +35,8 @@
             android:text="Casa Ley"
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:typeface="monospace" />
     </LinearLayout>
 
     <ListView
@@ -44,5 +45,6 @@
         android:id="@+id/list_menu"
         android:layout_below="@+id/linearLayout"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp" />
+        android:dividerHeight="10.0sp"
+        android:layout_marginLeft="10dp" />
 </RelativeLayout>
