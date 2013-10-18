@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Casa Ley</string>
+    <string name="localizanos">Localízanos</string>
+    <string name="lista">Lista de Compras</string>
+    <string name="ofertas">Ofertas Especiales</string>
+    <string name="registrate">Regístrate</string>
+    <string name="recordatorios">Recordatorios</string>
+    <string name="configuracion">Configuración</string>
+
+</resources>

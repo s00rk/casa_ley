@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Casa_Ley/Casa_Ley.iml" filepath="$PROJECT_DIR$/Casa_Ley/Casa_Ley.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Casa_LeyProject.iml" filepath="$PROJECT_DIR$/Casa_LeyProject.iml" />
+    </modules>
+  </component>
+</project>
+
