@@ -2,6 +2,7 @@ package com.techne.casa_ley;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -18,11 +19,12 @@ public class MainActivity extends Activity {
 
     private ListView listViewMenuInicio;
     private Context ctx;
-    private String[] imagenes_ofertas = null;
+    private String[] imagenes_ofertas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
         setContentView(R.layout.activity_main);
 
         ctx=this;
@@ -40,25 +42,29 @@ public class MainActivity extends Activity {
         listViewMenuInicio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i;
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                Intent in = null;
                 switch (position)
                 {
                     case 2:
-                        i = new Intent(MainActivity.this, OfertasActivity.class);
-                        Log.e("casa_ley", imagenes_ofertas[0]);
-                        i.putExtra("imagenes", imagenes_ofertas);
-                        startActivity(i);
+                        in = new Intent(MainActivity.this, OfertasActivity.class);
+                        in.putExtra("imagenes", imagenes_ofertas);
+                        break;
+                    case 3:
+                        in = new Intent(MainActivity.this, RegistroActivity.class);
                         break;
                 }
+                if(in != null)
+                    startActivity(in);
             }
         });
 
-        runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 cargarOfertas();
             }
-        });
+        }).start();
     }
 
     private void cargarOfertas()

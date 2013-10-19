@@ -3,7 +3,9 @@ package com.techne.casa_ley;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -11,10 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class OfertasActivity extends Activity {
 
-    String [] images;
-    Bitmap [] imagenes;
+    Bitmap [] imagenes = null;
     Context ctx;
     ViewPager viewPager;
     PageImageAdapter adapter;
@@ -40,31 +43,24 @@ public class OfertasActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_ofertas);
-
+        ctx = this;
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
-        images = getIntent().getStringArrayExtra("imagenes");
+        Bundle extras = getIntent().getExtras();
+        String [] images = extras.getStringArray("imagenes");
         imagenes = new Bitmap[images.length];
-        ctx = this;
+        for(int i = 0; i < images.length; i++)
+            imagenes[i] = Util.getImageBmp(images[i]);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for(int i=0; i < imagenes.length; i++)
-                        {
-                            imagenes[i] = Util.getImageBmp(images[i]);
-                        }
-                        adapter = new PageImageAdapter(ctx, imagenes);
-                        viewPager.setAdapter(adapter);
-                    }
-                });
-            }
-        }).start();
+        adapter = new PageImageAdapter(ctx, imagenes);
+        viewPager.setAdapter(adapter);
 
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.bottom_in, R.anim.top_out);
+    }
 }

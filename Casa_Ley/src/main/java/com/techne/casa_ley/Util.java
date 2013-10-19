@@ -11,6 +11,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -25,6 +26,13 @@ public class Util {
             ws.execute(metodo).get();
         }catch(Exception e){}
         return ws.getSoap();
+    }
+
+    public static byte[] getBitmapBytes(Bitmap bmp)
+    {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
 
     public static Bitmap getImageBmp(String url)
