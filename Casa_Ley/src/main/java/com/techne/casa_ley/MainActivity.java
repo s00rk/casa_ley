@@ -1,13 +1,15 @@
 package com.techne.casa_ley;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import org.ksoap2.serialization.SoapObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class MainActivity extends Activity {
 
     private ListView listViewMenuInicio;
     private Context ctx;
+    private String[] imagenes_ofertas = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +37,38 @@ public class MainActivity extends Activity {
         listViewMenuInicio = ( ListView ) findViewById( R.id.list_menu);
         listViewMenuInicio.setAdapter( new MenuInicioListAdapter(ctx, R.layout.list_row, menulista ) );
 
-        // Click event for single list row
         listViewMenuInicio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Menu_Inicio o = (Menu_Inicio) parent.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, o.getName().toString(), Toast.LENGTH_SHORT).show();
+                Intent i;
+                switch (position)
+                {
+                    case 2:
+                        i = new Intent(MainActivity.this, OfertasActivity.class);
+                        Log.e("casa_ley", imagenes_ofertas[0]);
+                        i.putExtra("imagenes", imagenes_ofertas);
+                        startActivity(i);
+                        break;
+                }
             }
         });
 
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                cargarOfertas();
+            }
+        });
+    }
+
+    private void cargarOfertas()
+    {
+        SoapObject objeto = Util.obtenerSOAP("ObtenerOfertasEspeciales");
+        if(objeto == null)
+            return;
+        imagenes_ofertas = new String[objeto.getPropertyCount()];
+        for(int i=0; i < objeto.getPropertyCount(); i++)
+            imagenes_ofertas[i] = objeto.getProperty(i).toString();
     }
     
 }
