@@ -47,20 +47,17 @@ public class OfertasActivity extends Activity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
         Bundle extras = getIntent().getExtras();
-        String [] images = extras.getStringArray("imagenes");
-        imagenes = new Bitmap[images.length];
-        for(int i = 0; i < images.length; i++)
-            imagenes[i] = Util.getImageBmp(images[i]);
+        String [] images = getIntent().getStringArrayExtra("imagenes");
+        if(imagenes == null && images != null)
+        {
+            imagenes = new Bitmap[images.length];
+            for(int i = 0; i < images.length; i++)
+                imagenes[i] = Util.getImageBmp(images[i]);
 
-        adapter = new PageImageAdapter(ctx, imagenes);
-        viewPager.setAdapter(adapter);
+            adapter = new PageImageAdapter(ctx, imagenes);
+            viewPager.setAdapter(adapter);
+        }
 
     }
 
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
-        finish();
-        overridePendingTransition(R.anim.bottom_in, R.anim.top_out);
-    }
 }

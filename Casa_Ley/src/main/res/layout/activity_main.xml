@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#D41400">
 
     <ImageView
         android:layout_width="fill_parent"
@@ -36,7 +37,8 @@
             android:layout_gravity="center_vertical"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:typeface="monospace" />
+            android:typeface="monospace"
+            android:textColor="#FFF" />
     </LinearLayout>
 
     <ListView

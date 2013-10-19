@@ -2,36 +2,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistroActivity">
+    tools:context=".RegistroActivity"
+    android:background="#000">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_alignParentTop="true"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@drawable/navbar">
 
         <ImageView
-            android:layout_width="30dip"
+            android:layout_width="40dip"
             android:layout_height="30dip"
-            android:id="@+id/imageView"
             android:layout_alignParentBottom="false"
             android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/img_left"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:onClick="btnBack" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Registrate"
             android:layout_alignParentBottom="false"
             android:layout_centerHorizontal="true"
-            android:id="@+id/textView" />
+            android:gravity="center_vertical"
+            android:textColor="#FFF" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:layout_alignParentRight="true" />
+            android:text="Enviar"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="45.7dp"
+        android:background="#D41400">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Nombre:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFF"
+                android:id="@+id/txt_nombre" />
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
