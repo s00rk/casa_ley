@@ -17,8 +17,7 @@
             android:id="@+id/legendImage"
             android:layout_width="30dip"
             android:layout_height="30dip"
-            android:scaleType="fitXY"
-            android:src="@drawable/img_locate" />
+            android:scaleType="fitXY" />
     </LinearLayout>
 
     <TextView

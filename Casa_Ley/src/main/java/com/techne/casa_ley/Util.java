@@ -1,9 +1,11 @@
 package com.techne.casa_ley;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -16,23 +18,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 public class Util {
 
-    public static SoapObject obtenerSOAP(String metodo)
+    public static Bitmap [] ofertas = null;
+    public static Hashtable<Estado, ArrayList<String>> Estados = new Hashtable<Estado, ArrayList<String>>();
+
+    public static SoapObject obtenerSOAP(String metodo, Hashtable<String, String> params)
     {
-        TareaWSConsulta ws = new TareaWSConsulta();
+        TareaWSConsulta ws = new TareaWSConsulta(params);
         try{
             ws.execute(metodo).get();
         }catch(Exception e){}
         return ws.getSoap();
     }
 
-    public static byte[] getBitmapBytes(Bitmap bmp)
+    public static void mensaje(Context ctx, String msj)
     {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
+        Toast.makeText(ctx, msj, Toast.LENGTH_SHORT).show();
     }
 
     public static Bitmap getImageBmp(String url)
@@ -84,6 +91,11 @@ public class Util {
 class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
 
     public SoapObject resSoap;
+    public Hashtable<String, String> parametros = null;
+    public TareaWSConsulta(Hashtable<String, String> params)
+    {
+        parametros = params;
+    }
 
     protected SoapObject doInBackground(String... params) {
 
@@ -98,6 +110,15 @@ class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
         Log.e("casa_ley", SOAP_ACTION);
 
         SoapObject request = new SoapObject(NAMESPACE, params[0]);
+        if(parametros != null)
+        {
+            Enumeration en = parametros.keys();
+            String clave;
+            while( en.hasMoreElements() ){
+                clave = (String)en.nextElement();
+                request.addProperty(clave, parametros.get(clave));
+            }
+        }
 
         SoapSerializationEnvelope envelope =
                 new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -111,7 +132,11 @@ class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
         {
             transporte.call(SOAP_ACTION, envelope);
             resSoap =(SoapObject)envelope.getResponse();
-
+            if(params[0].equals("GetCities"))
+            {
+                Log.e("casa_ley", envelope.getResponse().toString());
+                Log.e("casa_ley", envelope.bodyIn.toString());
+            }
         }
         catch (Exception e)
         {

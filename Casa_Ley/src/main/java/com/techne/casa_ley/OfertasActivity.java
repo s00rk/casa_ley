@@ -48,15 +48,21 @@ public class OfertasActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
         String [] images = getIntent().getStringArrayExtra("imagenes");
+        imagenes = Util.ofertas;
         if(imagenes == null && images != null)
         {
             imagenes = new Bitmap[images.length];
             for(int i = 0; i < images.length; i++)
                 imagenes[i] = Util.getImageBmp(images[i]);
+            Util.ofertas = imagenes;
 
             adapter = new PageImageAdapter(ctx, imagenes);
             viewPager.setAdapter(adapter);
+        }else if(imagenes != null){
+            adapter = new PageImageAdapter(ctx, imagenes);
+            viewPager.setAdapter(adapter);
         }
+
 
     }
 

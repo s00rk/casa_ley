@@ -39,7 +39,8 @@
             android:layout_height="wrap_content"
             android:text="Enviar"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:onClick="btnEnviar" />
     </RelativeLayout>
 
     <LinearLayout
@@ -55,7 +56,7 @@
             android:gravity="center_vertical|center_horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="130dp"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Nombre:"
@@ -72,6 +73,229 @@
                 android:textColor="#FFF"
                 android:id="@+id/txt_nombre" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Ap. Paterno:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFF"
+                android:id="@+id/txt_ap_paterno" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Ap. Materno:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFF"
+                android:id="@+id/txt_ap_materno" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Estado:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/spin_estado"
+                android:layout_marginLeft="30dp"
+                android:prompt="@string/select_estado"
+                android:spinnerMode="dialog" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Ciudad:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFF"
+                android:id="@+id/txt_ciudad" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Domicilio:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFF"
+                android:id="@+id/txt_domicilio" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="C.P."
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFF"
+                android:id="@+id/txt_cp"
+                android:inputType="textPostalAddress" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Email:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/txt_email"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FFF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Edad:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:id="@+id/txt_edad"
+                android:layout_marginLeft="30dp"
+                android:inputType="number"
+                android:textColor="#FFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Sexo:"
+                android:gravity="center_vertical"
+                android:textColor="#FFF"
+                android:layout_marginLeft="10dp" />
+
+            <Switch
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/swi_sexo"
+                android:layout_marginLeft="30dp"
+                android:textOn="M"
+                android:textOff="F"
+                android:textSize="30dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#FFF" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>

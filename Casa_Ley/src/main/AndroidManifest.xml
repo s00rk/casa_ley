@@ -35,6 +35,14 @@
             android:name="com.techne.casa_ley.RegistroActivity"
             android:label="@string/title_activity_registro" >
         </activity>
+        <activity
+            android:name="com.techne.casa_ley.RecordatorioActivity"
+            android:label="@string/title_activity_recordatorio" >
+        </activity>
+        <activity
+            android:name="com.techne.casa_ley.AddRecordatorioActivity"
+            android:label="@string/title_activity_add_recordatorio" >
+        </activity>
     </application>
 
 </manifest>

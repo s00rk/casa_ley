@@ -13,6 +13,7 @@ import android.widget.ListView;
 import org.ksoap2.serialization.SoapObject;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 public class MainActivity extends Activity {
@@ -53,6 +54,11 @@ public class MainActivity extends Activity {
                     case 3:
                         in = new Intent(MainActivity.this, RegistroActivity.class);
                         break;
+                    case 4:
+                        in = new Intent(MainActivity.this, RecordatorioActivity.class);
+                        break;
+                    default:
+                        return;
                 }
                 if(in != null)
                     startActivity(in);
@@ -65,16 +71,52 @@ public class MainActivity extends Activity {
                 cargarOfertas();
             }
         }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                cargarEstados();
+            }
+        }).start();
     }
 
     private void cargarOfertas()
     {
-        SoapObject objeto = Util.obtenerSOAP("ObtenerOfertasEspeciales");
+        Hashtable<String, String> val = null;
+        SoapObject objeto = Util.obtenerSOAP("ObtenerOfertasEspeciales", val);
         if(objeto == null)
             return;
         imagenes_ofertas = new String[objeto.getPropertyCount()];
         for(int i=0; i < objeto.getPropertyCount(); i++)
             imagenes_ofertas[i] = objeto.getProperty(i).toString();
+    }
+
+    private void cargarEstados()
+    {
+        Hashtable<String, String> val = null;
+        SoapObject objeto = Util.obtenerSOAP("GetStates", val);
+        if(objeto == null)
+            return;
+        Estado est;
+        ArrayList<String> c = new ArrayList<String>();
+        for(int i = 0; i < objeto.getPropertyCount(); i++)
+        {
+            SoapObject obj = (SoapObject)objeto.getProperty(i);
+            est = new Estado(obj.getProperty(0).toString(), obj.getProperty(1).toString());
+
+            Hashtable<String, String> params = new Hashtable<String, String>();
+            params.put("cve_estado", obj.getProperty(1).toString());
+            SoapObject ciudades = Util.obtenerSOAP("GetCities", params);
+            if(ciudades != null)
+            {
+                if(ciudades.getPropertyCount() > 0)
+                    Log.e("casa_ley", ciudades.getProperty(0).toString());
+
+                for(int j = 0; j < ciudades.getPropertyCount(); j++)
+                    c.add(ciudades.getProperty(0).toString());
+            }
+
+            Util.Estados.put(est, c);
+        }
     }
     
 }

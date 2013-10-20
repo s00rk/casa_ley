@@ -29,8 +29,11 @@ public class MenuInicioListAdapter extends ArrayAdapter<Menu_Inicio> {
         legendName.setText(Legend.getName());
 
         ImageView legendImage = (ImageView) convertView.findViewById(R.id.legendImage);
-        Drawable image = context.getResources().getDrawable(Legend.getImage());
-        legendImage.setImageDrawable(image);
+        if(Legend.getImage() != -1)
+        {
+            Drawable image = context.getResources().getDrawable(Legend.getImage());
+            legendImage.setImageDrawable(image);
+        }
 
         return convertView;
     }

@@ -4,6 +4,13 @@ public class Menu_Inicio {
     private String name;
     private int image;
 
+    public Menu_Inicio(String name)
+    {
+        super();
+        this.name = name;
+        this.image = -1;
+    }
+
     public Menu_Inicio(String name, int image) {
         super();
         this.name = name;
