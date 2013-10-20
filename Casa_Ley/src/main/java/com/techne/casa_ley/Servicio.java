@@ -37,7 +37,6 @@ public class Servicio extends Service {
             cal.setTimeInMillis(rr.getFecha());
             if(actual.getTimeInMillis() >= cal.getTimeInMillis())
             {
-                Log.e("casa_ley", "Bien!");
                 db = new DatabaseHelper(getApplicationContext());
                 db.deleteRecordatorio(rr.get_id());
                 db.closeDB();

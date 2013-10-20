@@ -3,6 +3,7 @@ package com.techne.casa_ley;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,7 +61,7 @@ public class RegistroActivity extends Activity {
                 }
                 ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
                         ctx, android.R.layout.simple_spinner_item, spinnerArray);
-                spinnerArrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_item );
+                spinnerArrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
                 Spinner spinner = (Spinner) findViewById( R.id.spin_ciudad );
                 spinner.setAdapter(spinnerArrayAdapter);
 
@@ -108,7 +109,7 @@ public class RegistroActivity extends Activity {
         params.put("sexo", sexo.getText().toString());
         params.put("edad", edad.getText().toString());
 
-        SoapObject obj = (SoapObject)Util.obtenerSOAP("RegistraraUsuario", params);
+        SoapObject obj = (SoapObject)Util.sendSOAPwithData("RegistraraUsuario", params);
         if(obj == null)
         {
             Util.mensaje(this, "Error al  enviar registro");

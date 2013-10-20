@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TiendasActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/navbar"
+        android:id="@+id/relativeLayout">
+
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/img_left"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:onClick="btnRegresarP" />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false"
+            android:onClick="btnEnviar"
+            android:background="@drawable/img_notas"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="5dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="45dp"
+        >
+
+
+        <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/fragment"
+            android:layout_gravity="center" />
+    </LinearLayout>
+</RelativeLayout>

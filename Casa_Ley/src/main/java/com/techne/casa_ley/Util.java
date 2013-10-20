@@ -11,24 +11,30 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+
 
 public class Util {
 
     public static Bitmap [] ofertas = null;
     public static Hashtable<Estado, ArrayList<String>> Estados = new Hashtable<Estado, ArrayList<String>>();
     public static List<Recordatorio> lista_recordatorio = new ArrayList<Recordatorio>();
+    public static List<Tienda> tiendas = new ArrayList<Tienda>();
 
     public static SoapObject obtenerSOAP(String metodo, Hashtable<String, String> params)
     {
@@ -88,6 +94,51 @@ public class Util {
         return bm;
     }
 
+    public static SoapObject sendSOAPwithData(String metodo, Hashtable<String, String> params)
+    {
+        try{
+            String reqXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><" + metodo + " xmlns=\"http://tempuri.org/\"";
+            String clave;
+            if(params != null)
+            {
+                reqXML += ">";
+                Enumeration<String> keys = params.keys();
+                while(keys.hasMoreElements())
+                {
+                    clave = keys.nextElement();
+                    reqXML += "<" + clave + ">" + params.get(clave) + "</" + clave + ">";
+                }
+                reqXML += "</" + metodo + "></soap:Body></soap:Envelope>";
+            }else
+                reqXML += " /></soap:Body></soap:Envelope>";
+
+            URL oURL = new URL("http://servicios.casaley.com.mx/WsPub/WsBridge.asmx?op=" + metodo);
+            HttpURLConnection con = (HttpURLConnection) oURL.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-type", "text/xml; charset=utf-8");
+            con.setRequestProperty("SOAPAction",
+                    "http://tempuri.org/" + metodo);
+            con.setDoOutput(true);
+            OutputStream reqStream = con.getOutputStream();
+            reqStream.write(reqXML.getBytes());
+            java.io.BufferedReader rd = new java.io.BufferedReader(new java.io.InputStreamReader(con.getInputStream()));
+            byte[] byteBuf = new byte[10240];
+            String line;
+            while ((line = rd.readLine()) != null) {
+                SoapObject objeto = new SoapObject();
+                SoapSerializationEnvelope env = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xpp = factory.newPullParser();
+                xpp.setInput(new StringReader(line));
+                env.parse(xpp);
+                return (SoapObject)env.getResponse();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
 class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
@@ -116,11 +167,9 @@ class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
             String clave;
             while( en.hasMoreElements() ){
                 clave = (String)en.nextElement();
-                Log.e("casa", clave + " " + parametros.get(clave));
                 request.addProperty(clave, parametros.get(clave));
             }
         }
-        Log.e("ley", request.toString());
 
         SoapSerializationEnvelope envelope =
                 new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -134,16 +183,10 @@ class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
         {
             transporte.call(SOAP_ACTION, envelope);
             resSoap =(SoapObject)envelope.getResponse();
-            //if(params[0].equals("GetCities"))
-            {
-                Log.e("casa_ley", envelope.getResponse().toString());
-                Log.e("casa_ley", envelope.bodyIn.toString());
-                Log.e("casa_ley", envelope.toString());
-            }
         }
         catch (Exception e)
         {
-            Log.e("casa_ley", e.toString());
+            Log.e("casa_ley e", e.toString());
             resSoap = null;
         }
 

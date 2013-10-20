@@ -18,5 +18,6 @@
     <string name="title_activity_add_recordatorio">AddRecordatorioActivity</string>
     <string name="title_activity_lista_compras">ListaComprasActivity</string>
     <string name="title_activity_add_compra">AddCompraActivity</string>
+    <string name="title_activity_tiendas">TiendasActivity</string>
 
 </resources>
