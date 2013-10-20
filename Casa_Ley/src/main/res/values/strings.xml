@@ -16,5 +16,7 @@
     <string name="select_ciudad">Selecciona una Ciudad</string>
     <string name="title_activity_recordatorio">RecordatorioActivity</string>
     <string name="title_activity_add_recordatorio">AddRecordatorioActivity</string>
+    <string name="title_activity_lista_compras">ListaComprasActivity</string>
+    <string name="title_activity_add_compra">AddCompraActivity</string>
 
 </resources>

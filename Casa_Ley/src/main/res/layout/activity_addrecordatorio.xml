@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddRecordatorioActivity"
-    android:background="#D11400">
+    tools:context=".AddRecordatorioActivity">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -37,7 +36,9 @@
             android:layout_height="wrap_content"
             android:text="Agregar"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:onClick="btnAgregarRecordatorio"
+            android:id="@+id/update_recordatorio" />
 
     </RelativeLayout>
 
@@ -58,7 +59,6 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Recordar:"
                 android:gravity="center_vertical"
-                android:textColor="#FFF"
                 android:layout_marginLeft="10dp" />
 
             <EditText
@@ -67,7 +67,6 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:layout_marginLeft="30dp"
-                android:textColor="#FFF"
                 android:id="@+id/txt_recordar" />
         </LinearLayout>
 
@@ -82,8 +81,21 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Recuerdame el:"
                 android:gravity="center_vertical"
-                android:textColor="#FFF"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/datePicker"
+                android:spinnersShown="true"
+                android:calendarViewShown="false" />
+
+            <TimePicker
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/timePicker"
+                android:layout_gravity="center" />
 
         </LinearLayout>
     </LinearLayout>

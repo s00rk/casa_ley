@@ -6,10 +6,10 @@ package com.techne.casa_ley;
 public class Recordatorio {
     private int _id;
     private String titulo;
-    private String fecha;
+    private long fecha;
 
     public Recordatorio(){}
-    public Recordatorio(String titulo, String fecha)
+    public Recordatorio(String titulo, long fecha)
     {
         this.titulo = titulo;
         this.fecha = fecha;
@@ -31,11 +31,11 @@ public class Recordatorio {
         this.titulo = titulo;
     }
 
-    public String getFecha() {
+    public long getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(long fecha) {
         this.fecha = fecha;
     }
 }

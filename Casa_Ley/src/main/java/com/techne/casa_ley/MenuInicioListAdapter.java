@@ -25,14 +25,27 @@ public class MenuInicioListAdapter extends ArrayAdapter<Menu_Inicio> {
     public View getView ( int position, View convertView, ViewGroup parent ) {
         convertView = ( RelativeLayout ) inflater.inflate( resource, null );
         Menu_Inicio Legend = getItem( position );
+
         TextView legendName = (TextView) convertView.findViewById(R.id.legendName);
+        ImageView legendImage = (ImageView) convertView.findViewById(R.id.legendImage);
+        TextView legendName2 = null;
+        if(resource == R.layout.list_row2)
+        {
+            legendName = (TextView) convertView.findViewById(R.id.legendName2);
+            legendImage = (ImageView) convertView.findViewById(R.id.legendImage2);
+            legendName2 = (TextView) convertView.findViewById(R.id.subname2);
+        }
+
         legendName.setText(Legend.getName());
 
-        ImageView legendImage = (ImageView) convertView.findViewById(R.id.legendImage);
         if(Legend.getImage() != -1)
         {
             Drawable image = context.getResources().getDrawable(Legend.getImage());
             legendImage.setImageDrawable(image);
+        }
+        if(Legend.getFecha().length() != 0)
+        {
+            legendName2.setText(Legend.getFecha());
         }
 
         return convertView;

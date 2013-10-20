@@ -22,11 +22,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 
 public class Util {
 
     public static Bitmap [] ofertas = null;
     public static Hashtable<Estado, ArrayList<String>> Estados = new Hashtable<Estado, ArrayList<String>>();
+    public static List<Recordatorio> lista_recordatorio = new ArrayList<Recordatorio>();
 
     public static SoapObject obtenerSOAP(String metodo, Hashtable<String, String> params)
     {
@@ -105,20 +107,20 @@ class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
         final String URLWEB="http://servicios.casaley.com.mx/WsPub/WsBridge.asmx?op=" + params[0];
         final String SOAP_ACTION = "http://tempuri.org/" + params[0];
 
-        Log.e("casa_ley", URLWEB);
-        Log.e("casa_ley", NAMESPACE);
-        Log.e("casa_ley", SOAP_ACTION);
 
         SoapObject request = new SoapObject(NAMESPACE, params[0]);
+
         if(parametros != null)
         {
             Enumeration en = parametros.keys();
             String clave;
             while( en.hasMoreElements() ){
                 clave = (String)en.nextElement();
+                Log.e("casa", clave + " " + parametros.get(clave));
                 request.addProperty(clave, parametros.get(clave));
             }
         }
+        Log.e("ley", request.toString());
 
         SoapSerializationEnvelope envelope =
                 new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -132,10 +134,11 @@ class TareaWSConsulta extends AsyncTask<String,SoapObject,SoapObject> {
         {
             transporte.call(SOAP_ACTION, envelope);
             resSoap =(SoapObject)envelope.getResponse();
-            if(params[0].equals("GetCities"))
+            //if(params[0].equals("GetCities"))
             {
                 Log.e("casa_ley", envelope.getResponse().toString());
                 Log.e("casa_ley", envelope.bodyIn.toString());
+                Log.e("casa_ley", envelope.toString());
             }
         }
         catch (Exception e)

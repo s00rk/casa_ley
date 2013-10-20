@@ -44,7 +44,7 @@ public class RegistroActivity extends Activity {
         Spinner spinner = (Spinner) findViewById( R.id.spin_estado );
         spinner.setAdapter(spinnerArrayAdapter);
 
-        /*
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -72,7 +72,7 @@ public class RegistroActivity extends Activity {
 
             }
         });
-        */
+
 
     }
 
@@ -84,11 +84,11 @@ public class RegistroActivity extends Activity {
     public void btnEnviar(View v)
     {
         EditText nombre = (EditText)find(R.id.txt_nombre), ap_paterno = (EditText)find(R.id.txt_ap_paterno), ap_materno = (EditText)find(R.id.txt_ap_materno),
-                ciudad = (EditText)find(R.id.txt_ciudad), domicilio = (EditText)find(R.id.txt_domicilio), cp = (EditText)find(R.id.txt_cp), email = (EditText)find(R.id.txt_email),
+                domicilio = (EditText)find(R.id.txt_domicilio), cp = (EditText)find(R.id.txt_cp), email = (EditText)find(R.id.txt_email),
                 edad = (EditText)find(R.id.txt_edad);
-        Spinner estado = (Spinner)find(R.id.spin_estado);
+        Spinner estado = (Spinner)find(R.id.spin_estado), ciudad = (Spinner)find(R.id.spin_ciudad);
         Switch sexo = (Switch)find(R.id.swi_sexo);
-        if(nombre.getText().toString().length() == 0 || ap_paterno.getText().toString().length() == 0 || ap_materno.getText().toString().length() == 0 || ciudad.getText().toString().length() == 0 ||
+        if(nombre.getText().toString().length() == 0 || ap_paterno.getText().toString().length() == 0 || ap_materno.getText().toString().length() == 0 ||
                 domicilio.getText().toString().length() == 0 || cp.getText().toString().length() == 0 || email.getText().toString().length() == 0 || edad.getText().toString().length() == 0)
         {
             Util.mensaje(this, "No debe haber campos vacios");
@@ -101,7 +101,7 @@ public class RegistroActivity extends Activity {
         params.put("apPaterno", ap_paterno.getText().toString());
         params.put("apMaterno", ap_materno.getText().toString());
         params.put("cveEstado", getcveEstado(estado.getSelectedItem().toString()));
-        params.put("ciudad", ciudad.getText().toString());
+        params.put("ciudad", ciudad.getSelectedItem().toString());
         params.put("domicilio", domicilio.getText().toString());
         params.put("codigoPostal", cp.getText().toString());
         params.put("email", email.getText().toString());

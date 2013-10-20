@@ -160,14 +160,13 @@
                 android:textColor="#FFF"
                 android:layout_marginLeft="10dp" />
 
-            <EditText
+            <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:inputType="textPersonName"
-                android:ems="10"
+                android:id="@+id/spin_ciudad"
                 android:layout_marginLeft="30dp"
-                android:textColor="#FFF"
-                android:id="@+id/txt_ciudad" />
+                android:prompt="@string/select_estado"
+                android:spinnerMode="dialog" />
 
         </LinearLayout>
 
