@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ksoap2 (2)">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Casa_Ley/libs/ksoap2.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -26,23 +26,26 @@ public class Servicio extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        List<Recordatorio> r = db.getAllRecordatorios();
-        db.closeDB();
-        Calendar cal = Calendar.getInstance();
-        Calendar actual = Calendar.getInstance();
-        actual.add(Calendar.MONTH, 1);
-        for(Recordatorio rr : r)
-        {
-            cal.setTimeInMillis(rr.getFecha());
-            if(actual.getTimeInMillis() >= cal.getTimeInMillis())
+
+        try{
+            DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+            List<Recordatorio> r = db.getAllRecordatorios();
+            db.closeDB();
+            Calendar cal = Calendar.getInstance();
+            Calendar actual = Calendar.getInstance();
+            actual.add(Calendar.MONTH, 1);
+            for(Recordatorio rr : r)
             {
-                db = new DatabaseHelper(getApplicationContext());
-                db.deleteRecordatorio(rr.get_id());
-                db.closeDB();
-                notificar(rr.getTitulo());
+                cal.setTimeInMillis(rr.getFecha());
+                if(actual.getTimeInMillis() >= cal.getTimeInMillis())
+                {
+                    db = new DatabaseHelper(getApplicationContext());
+                    db.deleteRecordatorio(rr.get_id());
+                    db.closeDB();
+                    notificar(rr.getTitulo());
+                }
             }
-        }
+        }catch(Exception e){}
 
         return Service.START_STICKY;
     }

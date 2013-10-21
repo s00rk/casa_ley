@@ -26,16 +26,22 @@ public class AddCompraActivity extends Activity {
         articulo = (AutoCompleteTextView)findViewById(R.id.compra_autocompletar);
         db = new DatabaseHelper(getApplicationContext());
 
-        lista = db.getAllProductos(0);
-        String []articulos = new String[lista.size()];
-        int i = 0;
-        for(Producto r : lista)
-            articulos[i++] = r.getNombre() + " " + r.getDescripcion();
-        db.closeDB();
+        try{
+            lista = db.getAllProductos(0);
+            String []articulos = new String[lista.size()];
+            int i = 0;
+            for(Producto r : lista)
+                articulos[i++] = r.getNombre() + " " + r.getDescripcion();
+            db.closeDB();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, articulos);
-        articulo.setThreshold(3);
-        articulo.setAdapter(adapter);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, articulos);
+            articulo.setThreshold(3);
+            articulo.setAdapter(adapter);
+        }catch(Exception e){
+            try{
+                db.closeDB();
+            }catch(Exception ee){}
+        }
     }
 
     public void AgregarCompra(View v)

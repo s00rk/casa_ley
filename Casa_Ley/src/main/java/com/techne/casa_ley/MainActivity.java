@@ -2,6 +2,7 @@ package com.techne.casa_ley;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
     private ListView listViewMenuInicio;
     private Context ctx;
     private String[] imagenes_ofertas;
+    private boolean process1 = true, process2 = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,26 +94,48 @@ public class MainActivity extends Activity {
             }
         });
 
+        final ProgressDialog pd = ProgressDialog.show(this,
+                "Casa Ley",
+               "Cargando datos",
+                true, false);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    while(process1 || process2){ Thread.sleep(1000*10);}
+                }catch(Exception e){}
+                pd.dismiss();
+            }
+        }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 cargarEstados();
-                cargarTiendas();
+                process1 = false;
             }
         }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 cargarOfertas();
+                cargarTiendas();
             }
         }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cargarRecordatorios();
-                cargarProductos();
+                try{
+                    cargarRecordatorios();
+                    cargarProductos();
+                }catch(Exception e){
+                    Log.e("casa_ley", e.toString());
+                }
+                process2 = false;
             }
         }).start();
+
     }
 
     private void cargarRecordatorios(){
@@ -193,39 +217,32 @@ public class MainActivity extends Activity {
 
     private void cargarTiendas()
     {
-        Enumeration<Estado> ests = Util.Estados.keys();
-        Estado est;
-        Hashtable<String, String> params = null;
-        while( ests.hasMoreElements() )
-        {
-            est = ests.nextElement();
-            for(String s : Util.Estados.get(est))
-            {
-                params = new Hashtable<String, String>();
-                params.put("cve_estado", est.clvestado);
-                params.put("nombre_ciudad", s);
-                Log.e("casa_ley", est.clvestado);
-                Log.e("casa_ley", s);
+
+                Hashtable<String, String> params = new Hashtable<String, String>();
+                params.put("cve_estado", "");
+                params.put("nombre_ciudad", "");
                 SoapObject tiendas = Util.sendSOAPwithData("GetStores", params);
                 if(tiendas == null)
                     return;
                 Tienda t;
                 for(int i = 0; i < tiendas.getPropertyCount(); i++)
                 {
-                    t = new Tienda();
-                    t.setRutaimagen( tiendas.getProperty(0).toString() );
-                    t.setTipo( tiendas.getProperty(1).toString() );
-                    t.setDescformato( tiendas.getProperty(2).toString() );
-                    t.setLongitud( tiendas.getProperty(3).toString() );
-                    t.setLatitud( tiendas.getProperty(4).toString() );
-                    t.setCodigopostal( tiendas.getProperty(5).toString() );
-                    t.setDomicilio( tiendas.getProperty(6).toString() );
-                    t.setNombre( tiendas.getProperty(7).toString() );
-                    t.setCodigo( tiendas.getProperty(8).toString() );
-                    Util.tiendas.add(t);
+                    SoapObject ti = (SoapObject)tiendas.getProperty(i);
+                    if(ti.getPropertyCount() > 0)
+                    {
+                        t = new Tienda();
+                        t.setRutaimagen( ti.getProperty(0).toString() );
+                        t.setTipo( ti.getProperty(1).toString() );
+                        t.setDescformato( ti.getProperty(2).toString() );
+                        t.setLongitud( ti.getProperty(3).toString() );
+                        t.setLatitud( ti.getProperty(4).toString() );
+                        t.setCodigopostal( ti.getProperty(5).toString() );
+                        t.setDomicilio( ti.getProperty(6).toString() );
+                        t.setNombre( ti.getProperty(7).toString() );
+                        t.setCodigo( ti.getProperty(8).toString() );
+                        Util.tiendas.add(t);
+                    }
                 }
-            }
-        }
 
     }
     

@@ -17,12 +17,14 @@ android {
     buildToolsVersion "18.1.1"
 
     defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 7
+        minSdkVersion 8
+        targetSdkVersion 8
     }
 }
 
 dependencies {
 	compile 'com.android.support:appcompat-v7:18.0.0'
-    compile files('C:\\Program Files (x86)\\Android\\android-studio\\sdk\\extras\\google\\google_play_services\\libproject\\google-play-services_lib\\libs\\google-play-services.jar', 'libs/ksoap2.jar')
+    compile 'com.google.android.gms:play-services:3.2.25'
+    //compile files ('libs/google-play-services.jar')
+    compile files ('libs/ksoap2.jar')
 }

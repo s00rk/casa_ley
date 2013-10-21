@@ -28,6 +28,7 @@ public class ListaComprasActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listacompras);
         ctx = this;
+        listViewMenuInicio = (ListView) findViewById( R.id.list_listacompras);
 
         actualizar();
         registerForContextMenu(listViewMenuInicio);
@@ -66,15 +67,20 @@ public class ListaComprasActivity extends Activity {
     private void actualizar()
     {
         db = new DatabaseHelper(getApplicationContext());
-        lista = db.getAllProductos(1);
+        try{
+            lista = db.getAllProductos(1);
 
-        List<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
-        for(Producto r : lista)
-            menulista.add(new Menu_Inicio(r.getNombre() + " " + r.getDescripcion()));
+            List<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
+            for(Producto r : lista)
+                menulista.add(new Menu_Inicio(r.getNombre() + " " + r.getDescripcion()));
 
-        listViewMenuInicio = (ListView) findViewById( R.id.list_listacompras);
-        listViewMenuInicio.setAdapter( new MenuInicioListAdapter(ctx, R.layout.list_row, menulista ) );
-        db.closeDB();
+            listViewMenuInicio.setAdapter( new MenuInicioListAdapter(ctx, R.layout.list_row, menulista ) );
+            db.closeDB();
+        }catch(Exception e){
+            try{
+                db.closeDB();
+            }catch(Exception ee){}
+        }
     }
 
     @Override

@@ -19,10 +19,10 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
 
     // Base de Datos
-    private static final String DATABASE_NAME = "CasaLey";
+    private static final String DATABASE_NAME = "CasaLey1";
 
     // Tablas
     private static final String TABLA_RECORDATORIO = "Recordatorios";
@@ -41,14 +41,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_COMPRAR = "comprar";
 
     // Table Create Statements
-    private static final String CREAR_TABLA_RECORDATORIO = "CREATE TABLE "
+    private static final String CREAR_TABLA_RECORDATORIO = "CREATE TABLE IF NOT EXISTS "
             + TABLA_RECORDATORIO + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITULO
             + " TEXT," + KEY_FECHA + " TEXT)";
-    private static final String CREAR_TABLA_PRODUCTO = "CREATE TABLE "
+    private static final String CREAR_TABLA_PRODUCTO = "CREATE TABLE IF NOT EXISTS "
             + TABLA_PRODUCTO + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOMBRE
             + " TEXT," + KEY_DESC + " TEXT," + KEY_COMPRAR + " INTEGER)";
 
-    private static final String metadata = "CREATE TABLE \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
+    private static final String metadata = "CREATE TABLE IF NOT EXISTS \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,10 +56,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(metadata);
+        //db.execSQL(metadata);
         db.execSQL(CREAR_TABLA_RECORDATORIO);
         db.execSQL(CREAR_TABLA_PRODUCTO);
-        db.execSQL("INSERT INTO \"android_metadata\" VALUES ('en_US')");
+        //db.execSQL("INSERT INTO \"android_metadata\" VALUES ('en_US')");
     }
 
     @Override
