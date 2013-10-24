@@ -86,6 +86,9 @@ public class MainActivity extends Activity {
                     case 4:
                         in = new Intent(MainActivity.this, RecordatorioActivity.class);
                         break;
+                    case 5:
+                        in = new Intent(MainActivity.this, ConfigActivity.class);
+                        break;
                     default:
                         return;
                 }

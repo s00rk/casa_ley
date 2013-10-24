@@ -48,8 +48,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="45dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bordes">
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,8 +72,8 @@
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:gravity="center_vertical"
-            android:background="@drawable/bordes"
-            android:id="@+id/linearLayout">
+            android:id="@+id/linearLayout"
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -129,5 +128,83 @@
             android:layout_marginRight="30dp"
             android:gravity="center_horizontal"
             android:textColor="#D0D0D0" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:id="@+id/linearLayout3"
+            android:layout_marginTop="40dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Notificaciones"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:id="@+id/linearLayout4"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Notificaciones Locales" />
+
+            <ToggleButton
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_noti_local"
+                android:layout_marginLeft="20dp"
+                android:text="Activado"
+                android:textOn="Activado"
+                android:textOff="Desactivado" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:id="@+id/linearLayout5"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp" >
+
+            <TextView
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Notificaciones PUSH" />
+
+            <ToggleButton
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_noti_push"
+                android:layout_marginLeft="20dp"
+                android:text="Activado"
+                android:textOn="Activado"
+                android:textOff="Desactivado" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Todos los derechos reservados para CASA LEY 2013"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center_horizontal"
+            android:textColor="#D0D0D0"
+            android:id="@+id/textView2" />
     </LinearLayout>
 </RelativeLayout>

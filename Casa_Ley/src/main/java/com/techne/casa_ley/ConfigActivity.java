@@ -14,10 +14,14 @@ public class ConfigActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_config);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "pulsarjs.ttf");
+
         TextView privacidad = (TextView)findViewById(R.id.txt_privacidad);
         privacidad.setTypeface(font);
+
+
 
     }
 
