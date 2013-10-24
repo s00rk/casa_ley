@@ -166,7 +166,8 @@
                 android:id="@+id/spin_ciudad"
                 android:layout_marginLeft="30dp"
                 android:prompt="@string/select_estado"
-                android:spinnerMode="dialog" />
+                android:spinnerMode="dialog"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -215,7 +216,8 @@
                 android:layout_marginLeft="30dp"
                 android:textColor="#FFF"
                 android:id="@+id/txt_cp"
-                android:inputType="textPostalAddress" />
+                android:inputType="number"
+                android:maxLength="5" />
         </LinearLayout>
 
         <LinearLayout
@@ -264,7 +266,8 @@
                 android:id="@+id/txt_edad"
                 android:layout_marginLeft="30dp"
                 android:inputType="number"
-                android:textColor="#FFF" />
+                android:textColor="#FFF"
+                android:maxLength="2" />
         </LinearLayout>
 
         <LinearLayout
@@ -281,16 +284,29 @@
                 android:textColor="#FFF"
                 android:layout_marginLeft="10dp" />
 
-            <Switch
+            <RadioGroup
+                android:id="@+id/radio_sexo"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/swi_sexo"
-                android:layout_marginLeft="30dp"
-                android:textOn="M"
-                android:textOff="F"
-                android:textSize="30dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:textColor="#FFF" />
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|center_horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Hombre"
+                    android:id="@+id/radio_hombre"
+                    android:gravity="center_vertical"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Mujer"
+                    android:id="@+id/radio_mujer"
+                    android:gravity="center_vertical" />
+            </RadioGroup>
+
 
         </LinearLayout>
 

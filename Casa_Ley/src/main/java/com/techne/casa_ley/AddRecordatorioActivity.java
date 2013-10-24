@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.sql.Time;
 import java.util.Calendar;
 
 public class AddRecordatorioActivity extends Activity {
@@ -24,12 +25,12 @@ public class AddRecordatorioActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addrecordatorio);
+        TimePicker time = (TimePicker)findViewById(R.id.timePicker);
 
         isUpdate = false;
         db = new DatabaseHelper(getApplicationContext());
         DatePicker date = (DatePicker)findViewById(R.id.datePicker);
         EditText recordar = (EditText)findViewById(R.id.txt_recordar);
-        TimePicker time = (TimePicker)findViewById(R.id.timePicker);
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= 11)
             date.setCalendarViewShown(false);
@@ -56,8 +57,10 @@ public class AddRecordatorioActivity extends Activity {
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(r.getFecha());
             date.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)-1, cal.get(Calendar.DATE));
-            time.setCurrentHour(cal.get(Calendar.HOUR));
-            time.setCurrentMinute(cal.get(Calendar.MINUTE));
+
+            Time tiempo = new Time(r.getFecha());
+            time.setCurrentHour(tiempo.getHours());
+            time.setCurrentMinute(tiempo.getMinutes());
         }
 
     }
@@ -75,7 +78,7 @@ public class AddRecordatorioActivity extends Activity {
         Calendar cal = Calendar.getInstance();
         Calendar actual = Calendar.getInstance();
         actual.add(Calendar.MONTH, 1);
-
+        Log.e("casa_ley", time.getCurrentHour()+"");
         cal.set(date.getYear(), date.getMonth()+1, date.getDayOfMonth(), time.getCurrentHour(), time.getCurrentMinute(), 0);
         if(actual.getTimeInMillis() >= cal.getTimeInMillis())
         {

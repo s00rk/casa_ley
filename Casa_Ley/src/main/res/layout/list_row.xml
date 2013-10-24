@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="5dip"
-    android:background="#D41400">
+    android:background="@drawable/lista_select">
 
     <LinearLayout android:id="@+id/thumbnail"
         android:layout_width="wrap_content"
@@ -28,7 +28,6 @@
         android:typeface="monospace"
         android:textSize="20dip"
         android:layout_centerVertical="true"
-        android:textColor="#FFF"
         android:textAlignment="center"
         android:layout_alignParentLeft="false"
         android:layout_toRightOf="@+id/thumbnail" />

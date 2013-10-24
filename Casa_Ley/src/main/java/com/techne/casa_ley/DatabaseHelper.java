@@ -22,11 +22,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Base de Datos
-    private static final String DATABASE_NAME = "CasaLey1";
+    private static final String DATABASE_NAME = "CasaLey2";
 
     // Tablas
     private static final String TABLA_RECORDATORIO = "Recordatorios";
     private static final String TABLA_PRODUCTO = "Productos";
+    private static final String TABLA_COMPRA = "Compras";
 
     // Columnas Principales
     private static final String KEY_ID = "_id";
@@ -35,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_TITULO = "titulo";
     private static final String KEY_FECHA = "fecha";
 
-    //Tabla Producto
+    // Tabla Producto
     private static final String KEY_NOMBRE = "nombre";
     private static final String KEY_DESC = "descripcion";
     private static final String KEY_COMPRAR = "comprar";
@@ -46,7 +47,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + " TEXT," + KEY_FECHA + " TEXT)";
     private static final String CREAR_TABLA_PRODUCTO = "CREATE TABLE IF NOT EXISTS "
             + TABLA_PRODUCTO + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOMBRE
-            + " TEXT," + KEY_DESC + " TEXT," + KEY_COMPRAR + " INTEGER)";
+            + " TEXT," + KEY_DESC + " TEXT)";
+    private static final String CREAR_TABLA_COMPRAS = "CREATE TABLE IF NOT EXISTS "
+            + TABLA_COMPRA + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOMBRE
+            + " TEXT)";
 
     private static final String metadata = "CREATE TABLE IF NOT EXISTS \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
 
@@ -59,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //db.execSQL(metadata);
         db.execSQL(CREAR_TABLA_RECORDATORIO);
         db.execSQL(CREAR_TABLA_PRODUCTO);
+        db.execSQL(CREAR_TABLA_COMPRAS);
         //db.execSQL("INSERT INTO \"android_metadata\" VALUES ('en_US')");
     }
 
@@ -67,6 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS android_metadata");
         db.execSQL("DROP TABLE IF EXISTS " + TABLA_RECORDATORIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLA_PRODUCTO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLA_COMPRA);
         onCreate(db);
     }
 
@@ -147,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[] { String.valueOf(todo.get_id()) });
     }
 
-    public void deleteRecordatorio(long tado_id) {
+    public void deleteRecordatorio(int tado_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLA_RECORDATORIO, KEY_ID + " = ?",
                 new String[] { String.valueOf(tado_id) });
@@ -155,7 +161,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-
+    public long createCompra(String producto)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NOMBRE, producto);
+        long id = db.insert(TABLA_COMPRA, null, values);
+        return id;
+    }
+    public ArrayList<Compra> getAllCompras()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLA_COMPRA;
+        Cursor c = db.rawQuery(query, null);
+        ArrayList<Compra> lista = new ArrayList<Compra>();
+        if(c.moveToFirst())
+        {
+            do{
+                Compra cc = new Compra();
+                cc.setNombre(c.getString(c.getColumnIndex(KEY_NOMBRE)));
+                cc.set_id( c.getInt(c.getColumnIndex(KEY_ID)));
+                lista.add(cc);
+            }while(c.moveToNext());
+        }
+        return lista;
+    }
+    public void deleteCompra(int tado_id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLA_COMPRA, KEY_ID + " = ?",
+                new String[] { String.valueOf(tado_id) });
+    }
+    public void deleteCompraAll()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLA_COMPRA);
+    }
 
     public long createProducto(Producto rec) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -163,7 +204,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NOMBRE, rec.getNombre());
         values.put(KEY_DESC, rec.getDescripcion());
-        values.put(KEY_COMPRAR, 0);
 
         long id = db.insert(TABLA_PRODUCTO, null, values);
 
@@ -190,15 +230,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             td.set_id(c.getInt(c.getColumnIndex(KEY_ID)));
             td.setNombre((c.getString(c.getColumnIndex(KEY_NOMBRE))));
             td.setDescripcion((c.getString(c.getColumnIndex(KEY_DESC))));
-            td.setComprar((c.getInt(c.getColumnIndex(KEY_COMPRAR))));
         }
 
         return td;
     }
 
-    public List<Producto> getAllProductos(int com) {
+    public List<Producto> getAllProductos() {
         List<Producto> todos = new ArrayList<Producto>();
-        String selectQuery = "SELECT  * FROM " + TABLA_PRODUCTO + " WHERE " + KEY_COMPRAR + " = " + com;
+        String selectQuery = "SELECT  * FROM " + TABLA_PRODUCTO;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -209,7 +248,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 td.set_id(c.getInt(c.getColumnIndex(KEY_ID)));
                 td.setNombre((c.getString(c.getColumnIndex(KEY_NOMBRE))));
                 td.setDescripcion((c.getString(c.getColumnIndex(KEY_DESC))));
-                td.setComprar((c.getInt(c.getColumnIndex(KEY_COMPRAR))));
 
                 todos.add(td);
             } while (c.moveToNext());
@@ -218,35 +256,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return todos;
     }
 
-    public int updateProducto(Producto todo) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_COMPRAR, todo.getComprar());
-
-        return db.update(TABLA_PRODUCTO, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(todo.get_id()) });
-    }
-
-    public void deleteProducto(long tado_id) {
+    public void deleteProducto(int tado_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLA_PRODUCTO, KEY_ID + " = ?",
                 new String[] { String.valueOf(tado_id) });
     }
 
-    public boolean existeProducto(String nombre, String desc) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selectQuery = "SELECT  * FROM " + TABLA_PRODUCTO + " WHERE "
-                + KEY_NOMBRE + " = '" + nombre + "' AND " + KEY_DESC + " = '" + desc + "'";
-
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        if (c == null)
-        {
-            return false;
-        }
-        return true;
-    }
 }

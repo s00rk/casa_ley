@@ -27,49 +27,35 @@ public class AddCompraActivity extends Activity {
         db = new DatabaseHelper(getApplicationContext());
 
         try{
-            lista = db.getAllProductos(0);
+            lista = db.getAllProductos();
+            db.closeDB();
+
             String []articulos = new String[lista.size()];
             int i = 0;
             for(Producto r : lista)
                 articulos[i++] = r.getNombre() + " " + r.getDescripcion();
-            db.closeDB();
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, articulos);
             articulo.setThreshold(3);
             articulo.setAdapter(adapter);
         }catch(Exception e){
-            try{
-                db.closeDB();
-            }catch(Exception ee){}
         }
     }
 
     public void AgregarCompra(View v)
     {
-        String art;
-        Producto resp = null;
-        for(Producto r : lista)
-        {
-            art = r.getNombre() + " " + r.getDescripcion();
-            if(art.equals(articulo.getText().toString()))
-            {
-                resp = r;
-                resp.setComprar(1);
-            }
-        }
-
-        if(resp != null)
+        String art = articulo.getText().toString();
+        if(art.length() > 0)
         {
             db = new DatabaseHelper(getApplicationContext());
-            db.updateProducto(resp);
+            db.createCompra(art);
             db.closeDB();
-            Util.mensaje(this, "Articulo Agregado a la lista! " + resp.getNombre() + " " + resp.get_id());
+            Util.mensaje(this, "Articulo Agregado a la lista! ");
             Intent intent = getIntent();
             setResult(RESULT_OK, intent);
             finish();
         }else
-            Util.mensaje(this, "El Articulo No Existe en la Lista");
-
+            Util.mensaje(this, "No deje espacio en blanco");
     }
 
 

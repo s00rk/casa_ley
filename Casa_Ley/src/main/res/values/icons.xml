@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pregunta_eliminar">¿Esta seguro que desea eliminar TODA la lista?</string>
+    <string name="icon_trash">l</string>
+    <string name="icon_arrow_right">X</string>
+</resources>

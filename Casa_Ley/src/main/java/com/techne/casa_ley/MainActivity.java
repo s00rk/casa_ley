@@ -27,7 +27,6 @@ public class MainActivity extends Activity {
     private ListView listViewMenuInicio;
     private Context ctx;
     private String[] imagenes_ofertas;
-    private boolean process1 = true, process2 = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class MainActivity extends Activity {
         AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30*1000, pintent);
 
-        List<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
+        ArrayList<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
         menulista.add(new Menu_Inicio(getString(R.string.localizanos), R.drawable.img_locate));
         menulista.add(new Menu_Inicio(getString(R.string.lista), R.drawable.img_notas));
         menulista.add(new Menu_Inicio(getString(R.string.ofertas), R.drawable.img_ofertas));
@@ -62,7 +61,7 @@ public class MainActivity extends Activity {
         menulista.add(new Menu_Inicio(getString(R.string.configuracion), R.drawable.img_settings));
 
         listViewMenuInicio = ( ListView ) findViewById( R.id.list_menu);
-        listViewMenuInicio.setAdapter( new MenuInicioListAdapter(ctx, R.layout.list_row, menulista ) );
+        listViewMenuInicio.setAdapter( new MenuInicioListAdapter(ctx, R.layout.list_row3, menulista ) );
 
         listViewMenuInicio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,12 +98,13 @@ public class MainActivity extends Activity {
                "Cargando datos",
                 true, false);
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
-                    while(process1 || process2){ Thread.sleep(1000*10);}
-                }catch(Exception e){}
+                cargarRecordatorios();
+                cargarProductos();
+                cargarTiendas();
                 pd.dismiss();
             }
         }).start();
@@ -112,27 +112,8 @@ public class MainActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cargarEstados();
-                process1 = false;
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
                 cargarOfertas();
-                cargarTiendas();
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    cargarRecordatorios();
-                    cargarProductos();
-                }catch(Exception e){
-                    Log.e("casa_ley", e.toString());
-                }
-                process2 = false;
+                cargarEstados();
             }
         }).start();
 
@@ -146,14 +127,30 @@ public class MainActivity extends Activity {
 
     private void cargarProductos()
     {
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        List<Producto> prods = db.getAllProductos();
+        db.closeDB();
+        final List<Producto> send = new ArrayList<Producto>();
+        send.addAll(prods);
+
+        if(prods.size() > 10)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    cargaProd(send);
+                }
+            });
+        else
+            cargaProd(send);
+
+
+    }
+    private void cargaProd(List<Producto> prods)
+    {
+        DatabaseHelper db;
         SoapObject objeto = Util.obtenerSOAP("ObtenerListadoArticulos", null);
         if(objeto == null)
             return;
-        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-
-        List<Producto> prods = db.getAllProductos(0);
-        prods.addAll(db.getAllProductos(1));
-
         for(int i = 0; i < objeto.getPropertyCount(); i++)
         {
             SoapObject obj = (SoapObject)objeto.getProperty(i);
@@ -165,11 +162,12 @@ public class MainActivity extends Activity {
 
             if(!existe)
             {
+                db = new DatabaseHelper(getApplicationContext());
                 Producto p = new Producto(obj.getProperty(1).toString(), obj.getProperty(0).toString());
                 db.createProducto(p);
+                db.closeDB();
             }
         }
-        db.closeDB();
     }
 
     private void cargarOfertas()
@@ -232,18 +230,25 @@ public class MainActivity extends Activity {
                     {
                         t = new Tienda();
                         t.setRutaimagen( ti.getProperty(0).toString() );
-                        t.setTipo( ti.getProperty(1).toString() );
-                        t.setDescformato( ti.getProperty(2).toString() );
-                        t.setLongitud( ti.getProperty(3).toString() );
-                        t.setLatitud( ti.getProperty(4).toString() );
-                        t.setCodigopostal( ti.getProperty(5).toString() );
-                        t.setDomicilio( ti.getProperty(6).toString() );
-                        t.setNombre( ti.getProperty(7).toString() );
-                        t.setCodigo( ti.getProperty(8).toString() );
+                        t.setTipo(ti.getProperty(1).toString());
+                        t.setDescformato(ti.getProperty(2).toString());
+                        t.setLongitud(ti.getProperty(3).toString());
+                        t.setLatitud(ti.getProperty(4).toString());
+                        t.setCodigopostal(ti.getProperty(5).toString());
+                        t.setDomicilio(ti.getProperty(6).toString());
+                        t.setNombre(ti.getProperty(7).toString());
+                        t.setCodigo(ti.getProperty(8).toString());
+                        if(t.getNombre().toLowerCase().contains("mayoreo"))
+                            t.setImagen( R.drawable.img_mayoreo );
+                        else if(t.getNombre().toLowerCase().contains("express"))
+                            t.setImagen(R.drawable.img_express);
+                        else if(t.getNombre().toLowerCase().contains("autoservicio"))
+                            t.setImagen( R.drawable.img_superexpress);
+                        else
+                            t.setImagen( R.drawable.img_super);
                         Util.tiendas.add(t);
                     }
                 }
-
     }
     
 }

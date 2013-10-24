@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ConfigActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/navbar"
+        android:id="@+id/relativeLayout" >
+
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/img_left"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:onClick="btnConfig"
+            android:id="@+id/btn_backconfig" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Configuraciones"
+            android:id="@+id/textView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFF" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="46dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/bordes">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Version"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="1.0.0"
+                android:id="@+id/txt_version"
+                android:textColor="#8B8B8B"
+                android:gravity="right"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/bordes"
+            android:id="@+id/linearLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Aviso de Privacidad"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/icon_arrow_right"
+                android:id="@+id/txt_privacidad"
+                android:textColor="#8B8B8B"
+                android:gravity="right"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:id="@+id/linearLayout2"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Busqueda de Tiendas"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="500"
+                android:id="@+id/txt_tiendas"
+                android:textColor="#8B8B8B"
+                android:gravity="right"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Rango de búsqueda de las Tiendas en Metros "
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center_horizontal"
+            android:textColor="#D0D0D0" />
+    </LinearLayout>
+</RelativeLayout>

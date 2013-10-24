@@ -32,12 +32,13 @@ public class RecordatorioActivity extends Activity {
         ctx = this;
 
         lista = Util.lista_recordatorio;
-        List<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
+        ArrayList<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
         for(Recordatorio r : lista)
             menulista.add(new Menu_Inicio(r.getTitulo(), r.getFecha()));
 
         listViewMenuInicio = (ListView) findViewById( R.id.list_recordatorios);
         listViewMenuInicio.setAdapter( new MenuInicioListAdapter(ctx, R.layout.list_row2, menulista ) );
+
 
         registerForContextMenu(listViewMenuInicio);
     }
@@ -81,15 +82,15 @@ public class RecordatorioActivity extends Activity {
     {
         db = new DatabaseHelper(getApplicationContext());
         lista = db.getAllRecordatorios();
+        db.closeDB();
         Util.lista_recordatorio = lista;
 
-        List<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
+        ArrayList<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
         for(Recordatorio r : lista)
             menulista.add(new Menu_Inicio(r.getTitulo(), r.getFecha()));
 
         listViewMenuInicio = (ListView) findViewById( R.id.list_recordatorios);
         listViewMenuInicio.setAdapter( new MenuInicioListAdapter(ctx, R.layout.list_row2, menulista ) );
-        db.closeDB();
     }
 
     public void btnAdd(View v)

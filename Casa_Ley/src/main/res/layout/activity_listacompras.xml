@@ -22,25 +22,42 @@
             android:src="@drawable/img_left"
             android:layout_marginTop="8dp"
             android:scaleType="fitXY"
-            android:onClick="btnBackmain" />
+            android:onClick="BotonListaCompras"
+            android:id="@+id/btn_backlistacompra" />
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Lista Compras"
-            android:layout_alignParentBottom="false"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentBottom="true"
+            android:onClick="BotonListaCompras"
+            android:id="@+id/btn_listacomprarecordatorio"
+            android:layout_toLeftOf="@+id/btn_listacompradelete"
+            android:singleLine="false"
             android:textColor="#FFF" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agregar"
+            android:text="@string/icon_trash"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentBottom="true"
+            android:onClick="BotonListaCompras"
+            android:id="@+id/btn_listacompradelete"
+            android:layout_toLeftOf="@+id/btn_listacompraagregar"
+            android:singleLine="false"
+            android:textColor="#FFF" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:onClick="btnAddCompra" />
+            android:onClick="BotonListaCompras"
+            android:id="@+id/btn_listacompraagregar"
+            android:textColor="#FFF" />
     </RelativeLayout>
 
     <ListView

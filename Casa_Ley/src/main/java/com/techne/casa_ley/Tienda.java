@@ -1,5 +1,7 @@
 package com.techne.casa_ley;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Victor on 20/10/13.
  */
@@ -14,6 +16,11 @@ public class Tienda {
     private String domicilio;
     private String nombre;
     private String codigo;
+    private int imagen;
+
+    public  int getImagen(){ return imagen; }
+
+    public void setImagen(int imagen){ this.imagen = imagen; }
 
     public String getRutaimagen() {
         return rutaimagen;
