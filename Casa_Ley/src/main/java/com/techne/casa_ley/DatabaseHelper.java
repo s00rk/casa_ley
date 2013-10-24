@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLA_RECORDATORIO = "Recordatorios";
     private static final String TABLA_PRODUCTO = "Productos";
     private static final String TABLA_COMPRA = "Compras";
+    private static final String TABLA_CONFIG = "Config";
 
     // Columnas Principales
     private static final String KEY_ID = "_id";
@@ -41,6 +43,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_DESC = "descripcion";
     private static final String KEY_COMPRAR = "comprar";
 
+    // Tabla Config
+    private static final String KEY_LOCAL = "NotiLocal";
+    private static final String KEY_PUSH = "NotiPush";
+    private static final String KEY_TIENDAS = "Tiendas";
+
     // Table Create Statements
     private static final String CREAR_TABLA_RECORDATORIO = "CREATE TABLE IF NOT EXISTS "
             + TABLA_RECORDATORIO + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITULO
@@ -51,6 +58,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREAR_TABLA_COMPRAS = "CREATE TABLE IF NOT EXISTS "
             + TABLA_COMPRA + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NOMBRE
             + " TEXT)";
+    private static final String CREAR_TABLA_CONFIG = "CREATE TABLE IF NOT EXISTS "
+            + TABLA_CONFIG + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_LOCAL + " INTEGER, "
+            + KEY_PUSH + " INTEGER, " + KEY_TIENDAS + " INTEGER)";
 
     private static final String metadata = "CREATE TABLE IF NOT EXISTS \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
 
@@ -64,6 +74,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREAR_TABLA_RECORDATORIO);
         db.execSQL(CREAR_TABLA_PRODUCTO);
         db.execSQL(CREAR_TABLA_COMPRAS);
+        db.execSQL(CREAR_TABLA_CONFIG);
+        db.execSQL("INSERT INTO " + TABLA_CONFIG + " VALUES (1, 1, 0, 500)");
         //db.execSQL("INSERT INTO \"android_metadata\" VALUES ('en_US')");
     }
 
@@ -73,7 +85,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLA_RECORDATORIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLA_PRODUCTO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLA_COMPRA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLA_CONFIG);
         onCreate(db);
+    }
+
+    public String getPath()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.getPath();
     }
 
     // closing database
@@ -81,6 +100,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         if (db != null && db.isOpen())
             db.close();
+    }
+
+    public Config getConfig(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLA_CONFIG;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Config td = null;
+        if(c != null)
+        {
+            td = new Config();
+            td.set_id(c.getInt(c.getColumnIndex(KEY_ID)));
+            td.setLocal((c.getInt(c.getColumnIndex(KEY_LOCAL))));
+            td.setPush(c.getInt(c.getColumnIndex(KEY_PUSH)));
+            td.setTiendas(c.getInt(c.getColumnIndex(KEY_TIENDAS)));
+        }
+
+        return td;
+    }
+    public int updateConfig(Config g)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOCAL, g.getLocal());
+        values.put(KEY_PUSH, g.getPush());
+        values.put(KEY_TIENDAS, g.getTiendas());
+
+        return db.update(TABLA_CONFIG, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(g.get_id()) });
     }
 
     public long createRecordatorio(Recordatorio rec) {

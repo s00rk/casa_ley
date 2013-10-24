@@ -2,6 +2,7 @@ package com.techne.casa_ley;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -65,7 +66,9 @@ public class ListaTiendaActivity extends Activity {
         listViewMenuInicio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ctx, position+" " + Util.tiendas.get(position).getNombre(), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(ListaTiendaActivity.this, TiendaInfoActivity.class);
+                i.putExtra("nombre", ((Menu_Inicio)listViewMenuInicio.getItemAtPosition(position)).getName());
+                startActivity(i);
             }
         });
     }

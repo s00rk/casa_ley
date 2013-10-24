@@ -95,6 +95,10 @@
             android:name="com.techne.casa_ley.ConfigActivity"
             android:label="@string/title_activity_tiendas" >
         </activity>
+        <activity
+            android:name="com.techne.casa_ley.TiendaInfoActivity"
+            android:label="@string/title_activity_tiendas" >
+        </activity>
 
         <!-- Debug AIzaSyAEqkJHEyVQ6wxmfz9ZyQWFwF_tGShjZDw -->
         <!-- Release AIzaSyCS4KClgGaE7Z7956LWf_jJvqo8v_l-4FM -->

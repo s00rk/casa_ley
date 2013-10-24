@@ -5,6 +5,9 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.app.Activity;
@@ -16,6 +19,7 @@ import android.widget.ListView;
 
 import org.ksoap2.serialization.SoapObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
@@ -37,6 +41,37 @@ public class MainActivity extends Activity {
         ctx=this;
         Calendar cal = Calendar.getInstance();
 
+        PackageInfo pInfo = null;
+        try{
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+
+        }catch(Exception E){}
+        SharedPreferences preferencias=getSharedPreferences("datos",Context.MODE_PRIVATE);
+        if(preferencias.contains("update"))
+        {
+            String ver = preferencias.getString("update", "");
+            if(pInfo != null && !ver.equals(pInfo.versionName))
+            {
+                DatabaseHelper db = new DatabaseHelper(this);
+                File f = new File(db.getPath());
+                db.closeDB();
+                if(f.exists())
+                    f.delete();
+            }
+        }else{
+            DatabaseHelper db = new DatabaseHelper(this);
+            File f = new File(db.getPath());
+            db.closeDB();
+            if(f.exists())
+                f.delete();
+        }
+        if(pInfo != null)
+        {
+            SharedPreferences.Editor edt = preferencias.edit();
+            edt.putString("update", pInfo.versionName);
+            edt.commit();
+        }
+
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= 9)
         {
@@ -50,7 +85,7 @@ public class MainActivity extends Activity {
         PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
 
         AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30*1000, pintent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 60*1000, pintent);
 
         ArrayList<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
         menulista.add(new Menu_Inicio(getString(R.string.localizanos), R.drawable.img_locate));

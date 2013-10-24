@@ -23,7 +23,7 @@
             android:src="@drawable/img_left"
             android:layout_marginTop="8dp"
             android:scaleType="fitXY"
-            android:onClick="btnReturnTienda" />
+            android:onClick="btnRegresarInfoTienda" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,11 +39,12 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:id="@+id/txt_buscarley"
         android:layout_alignParentRight="false"
         android:layout_below="@+id/relativeLayout"
-        android:hint="Buscar" />
+        android:hint="Buscar"
+        android:focusable="false" />
 
     <ListView
         android:layout_width="wrap_content"
