@@ -10,6 +10,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +29,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.ksoap2.serialization.SoapObject;
+
 import java.text.DecimalFormat;
+import java.util.Hashtable;
 
 /**
  * Created by Victor on 23/10/13.
@@ -45,13 +50,57 @@ public class TiendaInfoActivity extends Activity {
     android.location.LocationListener mlocationupdate;
     GPSTracker gps;
     Context ctx;
+    String distancia;
     boolean isOn = true;
+
+    private void cargarTiendas()
+    {
+
+        Hashtable<String, String> params = new Hashtable<String, String>();
+        params.put("cve_estado", "");
+        params.put("nombre_ciudad", "");
+        SoapObject tiendas = Util.sendSOAPwithData("GetStores", params);
+        if(tiendas == null)
+            return;
+        Tienda t;
+        for(int i = 0; i < tiendas.getPropertyCount(); i++)
+        {
+            SoapObject ti = (SoapObject)tiendas.getProperty(i);
+            if(ti.getPropertyCount() > 0)
+            {
+                t = new Tienda();
+                t.setRutaimagen( ti.getProperty(0).toString() );
+                t.setTipo(ti.getProperty(1).toString());
+                t.setDescformato(ti.getProperty(2).toString());
+                t.setLongitud(ti.getProperty(3).toString());
+                t.setLatitud(ti.getProperty(4).toString());
+                t.setCodigopostal(ti.getProperty(5).toString());
+                t.setDomicilio(ti.getProperty(6).toString());
+                t.setNombre(ti.getProperty(7).toString());
+                t.setCodigo(ti.getProperty(8).toString());
+                if(t.getNombre().toLowerCase().contains("mayoreo"))
+                    t.setImagen( R.drawable.img_mayoreo );
+                else if(t.getNombre().toLowerCase().contains("express"))
+                    t.setImagen(R.drawable.img_express);
+                else if(t.getNombre().toLowerCase().contains("autoservicio"))
+                    t.setImagen( R.drawable.img_superexpress);
+                else
+                    t.setImagen( R.drawable.img_super);
+                Util.tiendas.add(t);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tiendainfo);
         ctx = this;
+
+        if(Util.tiendas.size() == 0)
+        {
+            cargarTiendas();
+        }
 
         Bundle b = getIntent().getExtras();
 
@@ -98,6 +147,24 @@ public class TiendaInfoActivity extends Activity {
     }
 
 
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg) {
+            distanciai.setText(distancia);
+
+            googleMap.clear();
+
+            new Routing(googleMap, Color.RED).execute(MiLocacion, Destino);
+
+            add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
+
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(MiLocacion));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+
+            super.handleMessage(msg);
+        }
+    };
+
+
     private void iniciar()
     {
         try {
@@ -107,7 +174,6 @@ public class TiendaInfoActivity extends Activity {
                 googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                 googleMap.setMyLocationEnabled(true);
 
-                Log.e("casa_ley", t.getLatitud());
                 add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
 
 
@@ -124,19 +190,16 @@ public class TiendaInfoActivity extends Activity {
                             do{
                                 if(gps.canGetLocation())
                                 {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
+
                                             double latitude = gps.getLatitude();
                                             double longitude = gps.getLongitude();
                                             MiLocacion = new LatLng(latitude, longitude);
                                             Destino = new LatLng(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()));
-
                                             float []result = new float[1];
                                             Location.distanceBetween(latitude, longitude, Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), result);
 
 
-                                            String distancia = "";
+                                            distancia = "";
                                             DecimalFormat df = new DecimalFormat("###.##");
                                             double d = result[0];
                                             if(d > 1000)
@@ -145,18 +208,13 @@ public class TiendaInfoActivity extends Activity {
                                                 distancia = df.format(d) + " km";
                                             }else
                                                 distancia += " metros";
-                                            distanciai.setText(distancia);
 
-                                            googleMap.clear();
-
-                                            new Routing(TiendaInfoActivity.this,googleMap, Color.RED).execute(MiLocacion, Destino);
-                                            add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
-
-                                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(MiLocacion));
-                                            googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-
-                                        }
-                                    });
+                                    Message msg = new Message();
+                                    msg.what = 0x100;
+                                    TiendaInfoActivity.this.handler.sendMessage(msg);
+                                    try{
+                                        Thread.sleep(1000*10);
+                                    }catch(Exception e){}
                                 }
                             }while(isOn);
                         }
@@ -219,6 +277,7 @@ public class TiendaInfoActivity extends Activity {
     public void btnRegresarInfoTienda(View v)
     {
         isOn = false;
+        gps.stopUsingGPS();
         this.onBackPressed();
     }
 
@@ -227,5 +286,11 @@ public class TiendaInfoActivity extends Activity {
         gps.stopUsingGPS();
         isOn = false;
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        gps.stopUsingGPS();
+        super.onStop();
     }
 }

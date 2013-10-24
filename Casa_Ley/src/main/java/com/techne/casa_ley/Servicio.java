@@ -37,56 +37,18 @@ public class Servicio extends Service {
     private static long tiempo = 0;
     private static long tiempoLast = 0;
     private static float corta = Float.MAX_VALUE;
-    private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 1000;
-    private static final float LOCATION_DISTANCE = 10f;
-    LocationListener[] mLocationListeners = new LocationListener[] {
-            new LocationListener(LocationManager.GPS_PROVIDER),
-            new LocationListener(LocationManager.NETWORK_PROVIDER)
-    };
+    private static GPSTracker gps;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initializeLocationManager();
-        try {
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    mLocationListeners[1]);
-        } catch (java.lang.SecurityException ex) {
-            Log.i(TAG, "fail to request location update, ignore", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "network provider does not exist, " + ex.getMessage());
-        }
-        try {
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    mLocationListeners[0]);
-        } catch (java.lang.SecurityException ex) {
-            Log.i(TAG, "fail to request location update, ignore", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "gps provider does not exist " + ex.getMessage());
-        }
+        gps = new GPSTracker(Servicio.this);
     }
 
     @Override
     public void onDestroy() {
+        gps.stopUsingGPS();
         super.onDestroy();
-        if (mLocationManager != null) {
-            for (int i = 0; i < mLocationListeners.length; i++) {
-                try {
-                    mLocationManager.removeUpdates(mLocationListeners[i]);
-                } catch (Exception ex) {
-                    Log.i(TAG, "fail to remove location listners, ignore", ex);
-                }
-            }
-        }
-    }
-    private void initializeLocationManager() {
-        Log.e(TAG, "initializeLocationManager");
-        if (mLocationManager == null) {
-            mLocationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        }
     }
 
     @Override
@@ -117,7 +79,7 @@ public class Servicio extends Service {
             DatabaseHelper db = new DatabaseHelper(getApplicationContext());
             c = db.getConfig();
             db.closeDB();
-            if(c.getLocal() == 1)
+            if(c.getLocal() == 1 && gps.canGetLocation())
             {
                 if(TIENDAS == null)
                     TIENDAS = obtenerTiendas();
@@ -130,17 +92,10 @@ public class Servicio extends Service {
                         if(ti.getPropertyCount() > 0)
                         {
                             float []results = new float[1];
-                            float []resultss = new float[1];
-                            double lat = mLocationListeners[0].mLastLocation.getLatitude();
-                            double longi = mLocationListeners[0].mLastLocation.getLongitude();
+                            double lat = gps.getLatitude();
+                            double longi = gps.getLongitude();
                             Location.distanceBetween(Double.parseDouble(ti.getProperty(4).toString()), Double.parseDouble(ti.getProperty(3).toString()),
                                     lat, longi, results);
-                            lat = mLocationListeners[1].mLastLocation.getLatitude();
-                            longi = mLocationListeners[1].mLastLocation.getLongitude();
-                            Location.distanceBetween(Double.parseDouble(ti.getProperty(4).toString()), Double.parseDouble(ti.getProperty(3).toString()),
-                                    lat, longi, resultss);
-                            if(results[0] > resultss[0])
-                                results[0] = resultss[0];
 
                             if(c.getTiendas() >= results[0])
                             {
@@ -161,7 +116,7 @@ public class Servicio extends Service {
     }
 
     private void notificarTienda(String nombre, float distancia){
-        Intent resultIntent = new Intent(this, MainActivity.class);
+        Intent resultIntent = new Intent(this, TiendaInfoActivity.class);
         resultIntent.putExtra("nombre", nombre);
         resultIntent.putExtra("distancia", distancia + "");
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -233,34 +188,4 @@ public class Servicio extends Service {
         return Util.sendSOAPwithData("GetStores", params);
     }
 
-    private static final String TAG = "BOOMBOOMTESTGPS";
-    private class LocationListener implements android.location.LocationListener{
-        Location mLastLocation;
-        public LocationListener(String provider)
-        {
-            Log.e(TAG, "LocationListener " + provider);
-            mLastLocation = new Location(provider);
-        }
-        @Override
-        public void onLocationChanged(Location location)
-        {
-            Log.e(TAG, "onLocationChanged: " + location);
-            mLastLocation.set(location);
-        }
-        @Override
-        public void onProviderDisabled(String provider)
-        {
-            Log.e(TAG, "onProviderDisabled: " + provider);
-        }
-        @Override
-        public void onProviderEnabled(String provider)
-        {
-            Log.e(TAG, "onProviderEnabled: " + provider);
-        }
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras)
-        {
-            Log.e(TAG, "onStatusChanged: " + provider);
-        }
-    }
 }
