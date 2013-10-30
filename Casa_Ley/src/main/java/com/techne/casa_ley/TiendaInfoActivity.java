@@ -55,7 +55,7 @@ public class TiendaInfoActivity extends Activity {
 
     private void cargarTiendas()
     {
-
+        Util.tiendas.clear();
         Hashtable<String, String> params = new Hashtable<String, String>();
         params.put("cve_estado", "");
         params.put("nombre_ciudad", "");
@@ -97,11 +97,6 @@ public class TiendaInfoActivity extends Activity {
         setContentView(R.layout.activity_tiendainfo);
         ctx = this;
 
-        if(Util.tiendas.size() == 0)
-        {
-            cargarTiendas();
-        }
-
         Bundle b = getIntent().getExtras();
 
         String nombre = b.getString("nombre");
@@ -118,9 +113,20 @@ public class TiendaInfoActivity extends Activity {
             }else
                 distancia += " metros";
         }
+        boolean existe = false;
         for(Tienda tt : Util.tiendas)
             if(tt.getNombre().equals(nombre))
+            {
                 t = tt;
+                existe = true;
+            }
+        if(!existe)
+        {
+            cargarTiendas();
+            for(Tienda tt : Util.tiendas)
+                if(tt.getNombre().equals(nombre))
+                    t = tt;
+        }
 
         gps = new GPSTracker(TiendaInfoActivity.this);
         if(!gps.canGetLocation()){
@@ -151,11 +157,11 @@ public class TiendaInfoActivity extends Activity {
         public void handleMessage(Message msg) {
             distanciai.setText(distancia);
 
-            googleMap.clear();
+            //googleMap.clear();
 
-            new Routing(googleMap, Color.RED).execute(MiLocacion, Destino);
+            new Routing(googleMap, Color.RED, 0).execute(MiLocacion, Destino);
 
-            add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
+            //add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
 
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(MiLocacion));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
@@ -190,6 +196,9 @@ public class TiendaInfoActivity extends Activity {
                             do{
                                 if(gps.canGetLocation())
                                 {
+                                    try{
+                                        Thread.sleep(1000*10);
+                                    }catch(Exception e){}
 
                                             double latitude = gps.getLatitude();
                                             double longitude = gps.getLongitude();
@@ -212,9 +221,6 @@ public class TiendaInfoActivity extends Activity {
                                     Message msg = new Message();
                                     msg.what = 0x100;
                                     TiendaInfoActivity.this.handler.sendMessage(msg);
-                                    try{
-                                        Thread.sleep(1000*10);
-                                    }catch(Exception e){}
                                 }
                             }while(isOn);
                         }

@@ -25,6 +25,8 @@ public class Routing extends AsyncTask<LatLng,Void,Route>
     private LatLng destinationPoint;
     private Marker start;
     private Marker destination;
+    private Polyline polyline;
+    private int tipo;
 
 
     /**
@@ -33,12 +35,13 @@ public class Routing extends AsyncTask<LatLng,Void,Route>
      * @param map
      * @param color
      */
-    public Routing(Context context,GoogleMap map,int color)
+    public Routing(Context context,GoogleMap map,int color, int t)
     {
 
         this.context = context;
         this.map = map;
         this.color = color;
+        this.tipo = t;
     }
 
 
@@ -47,11 +50,12 @@ public class Routing extends AsyncTask<LatLng,Void,Route>
      * @param map
      * @param color
      */
-    public Routing(GoogleMap map,int color)
+    public Routing(GoogleMap map,int color, int t)
     {
         this.map = map;
         this.color = color;
         check=true;
+        this.tipo = t;
     }
 
     /**
@@ -106,8 +110,12 @@ public class Routing extends AsyncTask<LatLng,Void,Route>
             }
             startPoint = result.getPoints().get(2);
             destinationPoint = result.getPoints().get(result.getPoints().size()-3);
-
-            map.addPolyline(options);
+            if(tipo == 1 && Util.polyline != null)
+                Util.polyline.remove();
+            else if(tipo == 0 && Util.polyline1 != null)
+                Util.polyline1.remove();
+            Util.polyline = map.addPolyline(options);
+            Util.polyline1 = Util.polyline;
 
         }
     }//end onPostExecute method

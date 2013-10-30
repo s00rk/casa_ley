@@ -2,12 +2,15 @@ package com.techne.casa_ley;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -110,16 +113,26 @@ public class ConfigActivity extends Activity {
 
     }
 
-
     public void btnConfig(View v)
     {
+        Intent i = null;
+        Log.e("casa_ley", v.getId() + "");
         switch (v.getId())
         {
             case R.id.btn_backconfig:
                 this.onBackPressed();
-                break;
-
+                return;
+            case R.id.linear_privacidad:
+                i = new Intent(ConfigActivity.this, PrivacidadActivity.class);
+                startActivity(i);
+                return;
         }
+        this.onBackPressed();
+    }
+
+    public void btnConfigura(View vv)
+    {
+        this.onBackPressed();
     }
 
 }

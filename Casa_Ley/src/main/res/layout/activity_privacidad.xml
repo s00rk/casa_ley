@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/navbar"
+        android:id="@+id/relativeLayout" >
+
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/img_left"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:onClick="btnPrivacidad"
+            android:id="@+id/btn_backprivacidad" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Aviso de Privacidad"
+            android:id="@+id/textView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFF" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Aviso de Confidencialidad"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Copytight 2013 Casa Ley S.A. de C.V.\nTodos los derechos reservados"
+                android:id="@+id/textView4"
+                android:layout_alignTop="@+id/scrollView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#696969" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Casa Ley S. A. de C. V., con domicilio en Carretera Internacional Km 1434, Colonia Infonavit Humaya, C.P. 80020, Culiacán Sinaloa, es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección."
+                android:id="@+id/textView3"
+                android:layout_alignTop="@+id/scrollView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#696969"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Su información personal será utilizada para proveer servicios y productos requeridos, informar sobre nuestros productos o servicios que estén relacionados con el contratado o adquirido por el cliente, dar cumplimiento a obligaciones contraídas con nuestros clientes, realizar estudios internos sobre hábitos de consumo, atender quejas y aclaraciones y, en su caso tratarlos para fines compatibles con los mencionados en este Aviso de Privacidad y evaluar la calidad del servicio que le brindemos en términos de los dispuesto por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares."
+                android:id="@+id/textView5"
+                android:layout_alignTop="@+id/scrollView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#696969"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Usted tiene derecho de acceder, rectificar y cancelar sus datos personales, así como de oponerse al tratamiento de los mismos o revocar el consentimiento que para tal fin nos haya otorgado, a través de los procedimientos que hemos implementado. Para conocer dichos procedimientos, los requisitos y plazos, se puede poner en contacto mediante escrito dirigido a nuestra área de privacidad de datos con domicilio en Carretera Internacional Km. 1434, Colonia Infonavit Humaya, C.P. 80020, Culiacán Sinaloa, o vía correo electrónico dirigido a  privacidaddedatos@casaley.com.mx ."
+                android:id="@+id/textView6"
+                android:layout_alignTop="@+id/scrollView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#696969"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Asimismo, le informamos que sus datos personales pueden ser transferidos y tratados dentro y fuera del país, por personas distintas a esta empresa. En ese sentido, su información puede ser compartida a sociedades subsidiarias, filiales, afiliadas, para las finalidades antes expuestas. Si usted no manifiesta su oposición para que sus datos personales sean transferidos, se entenderá que ha otorgado su consentimiento para ello."
+                android:id="@+id/textView7"
+                android:layout_alignTop="@+id/scrollView"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#696969"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

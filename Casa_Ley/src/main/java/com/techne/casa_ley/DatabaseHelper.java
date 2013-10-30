@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Base de Datos
-    private static final String DATABASE_NAME = "CasaLey2";
+    private static final String DATABASE_NAME = "Casa_Ley1";
 
     // Tablas
     private static final String TABLA_RECORDATORIO = "Recordatorios";

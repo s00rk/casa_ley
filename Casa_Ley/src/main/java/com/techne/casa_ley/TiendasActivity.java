@@ -33,6 +33,21 @@ public class TiendasActivity extends Activity {
     LatLng Destino = null;
     boolean update = false;
     Routing ruta = null;
+    android.location.LocationListener locacionlistener;
+    LocationManager locationManager;
+    String provider;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        locationManager.removeUpdates(locacionlistener);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        locationManager.requestLocationUpdates(provider, 20000, 5, locacionlistener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +70,10 @@ public class TiendasActivity extends Activity {
                         Destino = marker.getPosition();
                         if(Destino != null && MiLocacion != null)
                         {
-                            googleMap.clear();
-                            new Routing(TiendasActivity.this,googleMap, Color.RED).execute(MiLocacion, Destino);
-                            for(Tienda t : Util.tiendas)
-                                add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
+                            //googleMap.clear();
+                            new Routing(TiendasActivity.this,googleMap, Color.RED, 0).execute(MiLocacion, Destino);
+                            //for(Tienda t : Util.tiendas)
+                              //  add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
                         }
                         return false;
                     }
@@ -66,12 +81,12 @@ public class TiendasActivity extends Activity {
 
                 Criteria criteria = new Criteria();
 
-                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                String provider = locationManager.getBestProvider(criteria, true);
+                locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                provider = locationManager.getBestProvider(criteria, true);
                 Location location = locationManager.getLastKnownLocation(provider);
 
                 if(location!=null){
-                    locationManager.requestLocationUpdates(provider, 20000, 0, new android.location.LocationListener() {
+                    locacionlistener = new android.location.LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
                             double latitude = location.getLatitude();
@@ -101,7 +116,8 @@ public class TiendasActivity extends Activity {
                         public void onProviderDisabled(String provider) {
 
                         }
-                    });
+                    };
+                    locationManager.requestLocationUpdates(provider, 20000, 0, locacionlistener);
                 }
 
             }

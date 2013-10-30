@@ -17,6 +17,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.Parse;
+import com.parse.ParseInstallation;
+import com.parse.PushService;
+
 import org.ksoap2.serialization.SoapObject;
 
 import java.io.File;
@@ -47,9 +51,9 @@ public class MainActivity extends Activity {
 
         }catch(Exception E){}
         SharedPreferences preferencias=getSharedPreferences("datos",Context.MODE_PRIVATE);
-        if(preferencias.contains("update"))
+        if(preferencias.contains("updates"))
         {
-            String ver = preferencias.getString("update", "");
+            String ver = preferencias.getString("updates", "");
             if(pInfo != null && !ver.equals(pInfo.versionName))
             {
                 DatabaseHelper db = new DatabaseHelper(this);
@@ -68,9 +72,13 @@ public class MainActivity extends Activity {
         if(pInfo != null)
         {
             SharedPreferences.Editor edt = preferencias.edit();
-            edt.putString("update", pInfo.versionName);
+            edt.putString("updates", pInfo.versionName);
             edt.commit();
         }
+
+        /*Parse.initialize(this, "oCMyeZjbX9mroT2LKoFGb3J7kpaNX8DShDoh98Ab", "xHIVGB92WCjKSZsvvCS3yVgssai0iUvZ6reMUIDM");
+        PushService.setDefaultPushCallback(this, MainActivity.class);
+        ParseInstallation.getCurrentInstallation().saveInBackground();*/
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= 9)
@@ -151,7 +159,6 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 cargarOfertas();
-                cargarEstados();
             }
         }).start();
 

@@ -1,5 +1,6 @@
 package com.techne.casa_ley;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -39,6 +40,16 @@ public class RegistroActivity extends Activity {
         setContentView(R.layout.activity_registro);
         ctx = this;
 
+        if(Util.Estados.size() == 0)
+        {
+            final ProgressDialog pd = ProgressDialog.show(this,
+                    "Casa Ley",
+                    "Cargando Estados",
+                    true, false);
+
+            cargarEstados();
+            pd.dismiss();
+        }
 
         spinnerArray_estado = new String[Util.Estados.size()];
         Enumeration e = Util.Estados.keys();
@@ -160,8 +171,47 @@ public class RegistroActivity extends Activity {
             return;
         }
 
-        for(int i = 0; i < obj.getPropertyCount(); i++)
-            Util.mensaje(this, obj.getProperty(i).toString());
+        if(obj.getPropertyCount() > 0)
+            Util.mensaje(this, obj.getProperty(1).toString());
+        if(obj.getProperty(2).toString().equals("true"))
+        {
+            nombre.setText("");
+            ap_materno.setText("");
+            ap_paterno.setText("");
+            domicilio.setText("");
+            cp.setText("");
+            email.setText("");
+            edad.setText("");
+        }
+    }
+
+    private void cargarEstados()
+    {
+        SoapObject objeto = Util.obtenerSOAP("GetStates", null);
+        if(objeto == null)
+            return;
+
+        for(int i = 0; i < objeto.getPropertyCount(); i++)
+        {
+            SoapObject obj = (SoapObject)objeto.getProperty(i);
+            Estado est = new Estado(obj.getProperty(0).toString(), obj.getProperty(1).toString());
+            ArrayList<String> c = new ArrayList<String>();
+
+            Hashtable<String, String> params = new Hashtable<String, String>();
+            params.put("cve_estado", est.clvestado);
+            SoapObject ciudades = Util.sendSOAPwithData("GetCities", params);
+            if(ciudades != null)
+            {
+                for(int j = 0; j < ciudades.getPropertyCount(); j++)
+                {
+                    SoapObject ciu = (SoapObject)ciudades.getProperty(j);
+                    for(int x = 0; x < ciu.getPropertyCount(); x++)
+                        c.add(ciu.getProperty(x).toString());
+                }
+            }
+
+            Util.Estados.put(est, c);
+        }
     }
 
     private Object find(int x)

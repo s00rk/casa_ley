@@ -24,7 +24,7 @@
             android:src="@drawable/img_left"
             android:layout_marginTop="8dp"
             android:scaleType="fitXY"
-            android:onClick="btnConfig"
+            android:onClick="btnConfigura"
             android:id="@+id/btn_backconfig" />
 
         <TextView
@@ -75,8 +75,9 @@
             android:layout_width="fill_parent"
             android:layout_height="45dp"
             android:gravity="center_vertical"
-            android:id="@+id/linearLayout"
-            android:layout_marginTop="15dp">
+            android:id="@+id/linear_privacidad"
+            android:layout_marginTop="15dp"
+            android:onClick="btnConfig">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -128,7 +129,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:gravity="center_horizontal"
-            android:textColor="#FFF" />
+            android:textColor="#DDD" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -152,8 +153,7 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:id="@+id/linearLayout4"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="185dp"
@@ -168,7 +168,7 @@
                 android:text="Activado"
                 android:textOn="Activado"
                 android:textOff="Desactivado"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="5dp" />
 
         </LinearLayout>
 
@@ -177,8 +177,7 @@
             android:layout_height="45dp"
             android:gravity="center_vertical"
             android:id="@+id/linearLayout5"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp" >
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="185dp"
@@ -190,7 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_noti_push"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:text="Activado"
                 android:textOn="Activado"
                 android:textOff="Desactivado" />

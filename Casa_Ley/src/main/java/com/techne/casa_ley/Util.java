@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.Polyline;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -40,6 +42,9 @@ public class Util {
     public static Hashtable<Estado, ArrayList<String>> Estados = new Hashtable<Estado, ArrayList<String>>();
     public static List<Recordatorio> lista_recordatorio = new ArrayList<Recordatorio>();
     public static List<Tienda> tiendas = new ArrayList<Tienda>();
+
+    public static Polyline polyline = null;
+    public static Polyline polyline1 = null;
 
     public static SoapObject obtenerSOAP(String metodo, Hashtable<String, String> params)
     {
