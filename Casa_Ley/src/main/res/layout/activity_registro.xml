@@ -12,18 +12,6 @@
         android:gravity="center_vertical"
         android:background="@drawable/navbar">
 
-        <ImageView
-            android:layout_width="40dip"
-            android:layout_height="30dip"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/img_left"
-            android:layout_marginTop="8dp"
-            android:scaleType="fitXY"
-            android:onClick="btnBack" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -276,7 +264,7 @@
             android:gravity="center_vertical|center_horizontal">
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Sexo:"
@@ -287,22 +275,22 @@
             <RadioGroup
                 android:id="@+id/radio_sexo"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical|center_horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Hombre"
+                    android:layout_height="wrap_content"
+                    android:text="Masculino"
                     android:id="@+id/radio_hombre"
                     android:gravity="center_vertical"
                     android:checked="true" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Mujer"
+                    android:layout_height="wrap_content"
+                    android:text="Femenino"
                     android:id="@+id/radio_mujer"
                     android:gravity="center_vertical" />
             </RadioGroup>

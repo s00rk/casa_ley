@@ -213,6 +213,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[] { String.valueOf(tado_id) });
     }
 
+    public void deleteRecordatorioAll()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLA_RECORDATORIO);
+    }
+
 
 
     public long createCompra(String producto)

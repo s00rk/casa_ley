@@ -150,6 +150,10 @@ public class RegistroActivity extends Activity {
         int selectedId = radioSexGroup.getCheckedRadioButtonId();
         RadioButton radioSexButton = (RadioButton) findViewById(selectedId);
         String SEXO = radioSexButton.getText().toString();
+        if(SEXO.equals("Masculino"))
+            SEXO = "M";
+        else
+            SEXO = "F";
 
 
         Hashtable<String, String> params = new Hashtable<String, String>();

@@ -119,9 +119,6 @@ public class ConfigActivity extends Activity {
         Log.e("casa_ley", v.getId() + "");
         switch (v.getId())
         {
-            case R.id.btn_backconfig:
-                this.onBackPressed();
-                return;
             case R.id.linear_privacidad:
                 i = new Intent(ConfigActivity.this, PrivacidadActivity.class);
                 startActivity(i);

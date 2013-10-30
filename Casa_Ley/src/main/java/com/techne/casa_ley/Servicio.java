@@ -80,34 +80,37 @@ public class Servicio extends Service {
         }catch(Exception e){}
 
         try{
-            DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-            c = db.getConfig();
-            db.closeDB();
-            if(c.getLocal() == 1 && gps.canGetLocation())
+            if(Util.isConected(this))
             {
-                if(TIENDAS == null)
-                    TIENDAS = obtenerTiendas();
-                tiempoLast = System.currentTimeMillis()/1000;
-                if(TIENDAS != null && tiempo <= tiempoLast)
+                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+                c = db.getConfig();
+                db.closeDB();
+                if(c.getLocal() == 1 && gps.canGetLocation())
                 {
-                    for(int i = 0; i < TIENDAS.getPropertyCount(); i++)
+                    if(TIENDAS == null)
+                        TIENDAS = obtenerTiendas();
+                    tiempoLast = System.currentTimeMillis()/1000;
+                    if(TIENDAS != null && tiempo <= tiempoLast)
                     {
-                        SoapObject ti = (SoapObject)TIENDAS.getProperty(i);
-                        if(ti.getPropertyCount() > 0)
+                        for(int i = 0; i < TIENDAS.getPropertyCount(); i++)
                         {
-                            float []results = new float[1];
-                            double lat = gps.getLatitude();
-                            double longi = gps.getLongitude();
-                            Location.distanceBetween(Double.parseDouble(ti.getProperty(4).toString()), Double.parseDouble(ti.getProperty(3).toString()),
-                                    lat, longi, results);
-
-                            if(c.getTiendas() >= results[0])
+                            SoapObject ti = (SoapObject)TIENDAS.getProperty(i);
+                            if(ti.getPropertyCount() > 0)
                             {
-                                if(corta > results[0] || tiempo <= tiempoLast)
+                                float []results = new float[1];
+                                double lat = gps.getLatitude();
+                                double longi = gps.getLongitude();
+                                Location.distanceBetween(Double.parseDouble(ti.getProperty(4).toString()), Double.parseDouble(ti.getProperty(3).toString()),
+                                        lat, longi, results);
+
+                                if(c.getTiendas() >= results[0])
                                 {
-                                    tiempo = tiempoLast + (((10 * 60) + 59) * 1000);
-                                    corta = results[0];
-                                    notificarTienda(ti.getProperty(7).toString(), results[0]);
+                                    if(corta > results[0] || tiempo <= tiempoLast)
+                                    {
+                                        tiempo = tiempoLast + (((10 * 60) + 59) * 1000);
+                                        corta = results[0];
+                                        notificarTienda(ti.getProperty(7).toString(), results[0]);
+                                    }
                                 }
                             }
                         }

@@ -19,5 +19,6 @@
     <string name="title_activity_lista_compras">ListaComprasActivity</string>
     <string name="title_activity_add_compra">AddCompraActivity</string>
     <string name="title_activity_tiendas">TiendasActivity</string>
+    <string name="cargando">Cargando Aplicación</string>
 
 </resources>

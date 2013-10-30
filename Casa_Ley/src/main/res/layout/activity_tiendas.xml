@@ -12,18 +12,6 @@
         android:background="@drawable/navbar"
         android:id="@+id/relativeLayout">
 
-        <ImageView
-            android:layout_width="40dip"
-            android:layout_height="30dip"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/img_left"
-            android:layout_marginTop="8dp"
-            android:scaleType="fitXY"
-            android:onClick="btnRegresarP" />
-
         <Button
             android:layout_width="30dp"
             android:layout_height="25dp"

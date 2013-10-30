@@ -1,7 +1,10 @@
 package com.techne.casa_ley;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -10,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,6 +35,10 @@ public class RecordatorioActivity extends Activity {
         setContentView(R.layout.activity_recordatorio);
         ctx = this;
 
+        Button trash = (Button)findViewById(R.id.button);
+        Typeface font = Typeface.createFromAsset(getAssets(), "pulsarjs.ttf");
+        trash.setTypeface(font);
+
         lista = Util.lista_recordatorio;
         ArrayList<Menu_Inicio> menulista = new ArrayList<Menu_Inicio>();
         for(Recordatorio r : lista)
@@ -41,6 +49,29 @@ public class RecordatorioActivity extends Activity {
 
 
         registerForContextMenu(listViewMenuInicio);
+
+        trash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                builder.setMessage(getString(R.string.pregunta_eliminar))
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                DatabaseHelper db = new DatabaseHelper(ctx);
+                                db.deleteRecordatorioAll();
+                                db.closeDB();
+                                actualizar();
+                                Toast.makeText(ctx, "Lista Eliminada", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                builder.create();
+                builder.show();
+            }
+        });
     }
 
     @Override

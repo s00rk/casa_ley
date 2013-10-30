@@ -111,9 +111,6 @@ public class ListaComprasActivity extends Activity {
                 i = new Intent(ListaComprasActivity.this, AddCompraActivity.class);
                 startActivityForResult(i, AGREGAR_COMPRA);
                 break;
-            case R.id.btn_backlistacompra:
-                this.onBackPressed();
-                break;
             case R.id.btn_listacomprarecordatorio:
                 i = new Intent(ListaComprasActivity.this, RecordatorioActivity.class);
                 startActivity(i);

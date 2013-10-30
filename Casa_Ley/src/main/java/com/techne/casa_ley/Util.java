@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,17 @@ public class Util {
 
     public static Polyline polyline = null;
     public static Polyline polyline1 = null;
+
+    public static boolean isConected(Context ctx)
+    {
+        ConnectivityManager cm =
+                (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
+    }
 
     public static SoapObject obtenerSOAP(String metodo, Hashtable<String, String> params)
     {

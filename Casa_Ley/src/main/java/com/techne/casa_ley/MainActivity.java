@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
 
         final ProgressDialog pd = ProgressDialog.show(this,
                 "Casa Ley",
-               "Cargando datos",
+                getString(R.string.cargando),
                 true, false);
 
 

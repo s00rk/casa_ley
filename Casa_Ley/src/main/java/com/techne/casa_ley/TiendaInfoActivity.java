@@ -52,6 +52,7 @@ public class TiendaInfoActivity extends Activity {
     Context ctx;
     String distancia;
     boolean isOn = true;
+    boolean firstTime = true;
 
     private void cargarTiendas()
     {
@@ -162,9 +163,12 @@ public class TiendaInfoActivity extends Activity {
             new Routing(googleMap, Color.RED, 0).execute(MiLocacion, Destino);
 
             //add_Marker(Double.parseDouble(t.getLatitud()), Double.parseDouble(t.getLongitud()), t.getNombre(), t.getImagen());
-
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(MiLocacion));
-            googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+            if(firstTime)
+            {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(MiLocacion));
+                googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+                firstTime = false;
+            }
 
             super.handleMessage(msg);
         }
